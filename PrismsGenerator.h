@@ -17,9 +17,9 @@ class PrismsGenerator
 		int prismsNumber;
 		int maxVerticesNumber; // in prism base
 		bool onlyConvex;
-		int minRadius; // min value circle radius to build polygon
-		int maxRadius;
-		int areaRange; // to locate circle center and limit x,y coordinates
+		double minRadius; // min value circle radius to build polygon
+		double maxRadius;
+		const double areaRange = 100.0; // to locate circle center and limit x,y coordinates
 
 		Prism generateConvexBase() const;
 		Prism generateBase() const;

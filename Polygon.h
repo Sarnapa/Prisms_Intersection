@@ -1,7 +1,6 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
-#include <iostream>
 #include <vector>
 
 #include "Vertex.h"
@@ -25,7 +24,7 @@ class Polygon
         vector<Vertex> getVerticesList() const;
 
         void printPolygon() const;
-
+		string toString() const;
 };
 
 #endif // POLYGON_H

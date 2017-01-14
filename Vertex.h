@@ -2,6 +2,8 @@
 #define VERTEX_H
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -10,6 +12,7 @@ class Vertex
     private:
         double x, y;
     public:
+		Vertex();
         Vertex(double, double);
         Vertex(const Vertex&);
         ~Vertex();
@@ -23,6 +26,7 @@ class Vertex
         double getY() const;
 
         void printVertex() const;
+		string toString() const;
 };
 
 #endif // VERTEX_H

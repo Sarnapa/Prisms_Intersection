@@ -22,6 +22,7 @@ class Prism
         pair<double,double> getHeightRange() const;
 
         void printPrism() const;
+		string toString() const;
 };
 
 #endif // PRISM_H

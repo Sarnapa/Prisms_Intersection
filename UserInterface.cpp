@@ -12,7 +12,7 @@ void UserInterface::printInfo()
     cout << endl;
     cout << "Specified flags for the application:" << endl;
     cout << "\t-f <filename> - read input from text file" << endl;
-    cout << "\t-g <filename> <number of prisms> <max number of vertices of base>" << endl;
+    cout << "\t-g <filename> <number of prisms> <max number of vertices of base> <1 if only convex or 0 if every random polygon>" << endl;
     cout <<  "\t - generate random input and save it in file" << endl;
     cout << "\t-o <filename> - save output in file" << endl;
     cout << "\t-help - program help manual" << endl;
@@ -33,16 +33,20 @@ bool UserInterface::parseCommand(int argc, char **argv)
         return true;
     }
 
-    else if (arg1 == "-g" && argc >= 5)
+    else if (arg1 == "-g" && argc >= 6)
     {
-        if(argc > 7)
+        if(argc > 8)
             return false;
         mode = GENERATOR;
         genFile = string(argv[2]);
         prismsNumber = atoi(argv[3]);
         maxVerticesNumber = atoi(argv[4]);
-        if(argc == 7 && string(argv[5]) == "-o")
-            outFile = string(argv[6]);
+		if (atoi(argv[5]) == 1)
+		{
+			onlyConvexForGenerator = true; // default option is false
+		}
+        if(argc == 8 && string(argv[6]) == "-o")
+            outFile = string(argv[7]);
         return true;
     }
     return false;
@@ -55,8 +59,11 @@ bool UserInterface::loadFromFile()
     string line;
     if (inputData.good())
     {
-        while (getline(inputData, line))
-            prismsList.push_back(generatePrism(line));
+		while (getline(inputData, line))
+		{
+			prismsList.push_back(generatePrism(line));
+		}
+		prismsNumber = prismsList.size();
         inputData.close();
     }
     else
@@ -87,15 +94,39 @@ Prism UserInterface::generatePrism(string prismLine)
     return Prism(id, base, make_pair(x,y));
 }
 
+void UserInterface::usePrismsGenerator()
+{
+	PrismsGenerator generator(prismsNumber, maxVerticesNumber, onlyConvexForGenerator);
+	prismsList = generator.generatePrisms();
+}
+
+bool UserInterface::saveToGenFile() const
+{
+	fstream file;
+	file.open(genFile, ios::out);
+	if (file.good())
+	{
+		for (Prism p : prismsList)
+			file << p.toString();
+		file.close();
+	}
+	else
+	{
+		file.close();
+		return false;
+	}
+	return true;
+}
+
 ProgramMode UserInterface::getMode() const
 {
     return mode;
 }
 
-void UserInterface::key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void UserInterface::drawPrisms() const
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
+	DrawingPrisms prismsWindow(prismsList, prismsNumber);
+	prismsWindow.drawPrisms("Prisms_Intersection - Input");
 }
 
 void UserInterface::printPrismsList() const

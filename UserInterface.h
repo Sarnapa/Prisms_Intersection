@@ -8,6 +8,7 @@
 #include <vector>
 #include "Prism.h"
 #include "Polygon.h"
+#include "PrismsGenerator.h"
 #include "DrawingPrisms.h"
 
 using namespace std;
@@ -28,15 +29,18 @@ class UserInterface
         vector<Prism> prismsList;
         int prismsNumber = 0;
         int maxVerticesNumber = 0; // in base
+		bool onlyConvexForGenerator = false;
+
+		static Prism generatePrism(string); // from line from file
     public:
         static void printInfo();
         bool parseCommand(int, char **);
         bool loadFromFile();
-        static Prism generatePrism(string);
-
+		bool saveToGenFile() const;
+		void usePrismsGenerator();
         ProgramMode getMode() const;
 
-
+		void drawPrisms() const;
 		void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
         void printPrismsList() const;

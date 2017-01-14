@@ -31,9 +31,12 @@ int main(int argc, char *argv[])
         }
         else
         {
-
+			interface.usePrismsGenerator();
+			if (!interface.saveToGenFile())
+				cout << "Cannot save generated data to file" << endl;
         }
         interface.printInterface();
+		interface.drawPrisms();
     }
 
     return 0;

@@ -54,8 +54,16 @@ vector<Vertex> Polygon::getVerticesList() const
 void Polygon::printPolygon() const
 {
     for(unsigned int i = 0; i < verticesList.size(); ++i)
-        cout << verticesList[i].getX() << ", " << verticesList[i].getY() << " ";
+        cout << verticesList[i].toString() << " ";
     cout << endl;
+}
+
+string Polygon::toString() const
+{
+	stringstream polygonString;
+	for (int i = 0; i < verticesList.size(); i++)
+		polygonString << verticesList[i].toString() << " ";
+	return polygonString.str();
 }
 
 Polygon::~Polygon()

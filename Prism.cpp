@@ -45,6 +45,13 @@ void Prism::printPrism() const
     base.printPolygon();
 }
 
+string Prism::toString() const
+{
+	stringstream prismString;
+	prismString << id << " " << heightRange.first << " " << heightRange.second << " " << base.toString() << endl;
+	return prismString.str();
+}
+
 Prism::~Prism()
 {
 

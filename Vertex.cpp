@@ -1,5 +1,7 @@
 #include "Vertex.h"
 
+Vertex::Vertex() {}
+
 Vertex::Vertex(double _x, double _y): x(_x), y(_y) {}
 
 Vertex::Vertex(const Vertex& otherVertex): x(otherVertex.x), y(otherVertex.y) {}
@@ -46,6 +48,13 @@ double Vertex::getY() const
 
 void Vertex::printVertex() const
 {
-    cout << x << " " << y << endl;
+	cout << "(" << x << ", " << y << ")" << endl;
+}
+
+string Vertex::toString() const
+{
+	stringstream vertexString;
+	vertexString << "(" << x << ", " << y << ")";
+	return vertexString.str();
 }
 
