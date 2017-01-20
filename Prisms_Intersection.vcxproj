@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DrawingPrisms.cpp" />
+    <ClCompile Include="LineSegment.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Prism.cpp" />
@@ -95,15 +96,18 @@
     <ClCompile Include="shprogram.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="WeilerAthertonAlgorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawingPrisms.h" />
+    <ClInclude Include="LineSegment.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="Prism.h" />
     <ClInclude Include="PrismsGenerator.h" />
     <ClInclude Include="shprogram.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="WeilerAthertonAlgorithm.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.frag" />

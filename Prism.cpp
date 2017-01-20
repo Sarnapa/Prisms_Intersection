@@ -1,10 +1,14 @@
 #include "Prism.h"
 
-Prism::Prism(int _id, Polygon _base, pair<double,double> _heightRange): id(_id), base(_base), heightRange(_heightRange)
+Prism::Prism()
+{}
+
+Prism::Prism(int _id, Polygon _base, pair<double,double> heightRange): id(_id), base(_base)
 {
+	heightRanges.insert(make_pair(id, heightRange));
 }
 
-Prism::Prism(const Prism& otherPrism): id(otherPrism.id), base(otherPrism.base), heightRange(otherPrism.heightRange)
+Prism::Prism(const Prism& otherPrism): id(otherPrism.id), base(otherPrism.base), heightRanges(otherPrism.heightRanges)
 {
 }
 
@@ -12,16 +16,29 @@ Prism& Prism::operator=(const Prism& otherPrism)
 {
     id = otherPrism.id;
     base = otherPrism.base;
-    heightRange = otherPrism.heightRange;
+    heightRanges = otherPrism.heightRanges;
     return *this;
 }
 
 bool Prism::operator==(const Prism& otherPrism) const
 {
-    if(base == otherPrism.base && heightRange == otherPrism.heightRange)
+    if(base == otherPrism.base && heightRanges == otherPrism.heightRanges)
         return true;
     else
         return false;
+}
+
+void Prism::addHeightRange(int id, pair<double, double> heightRange)
+{
+	heightRanges.insert(make_pair(id, heightRange));
+}
+
+void Prism::addHeightRanges(const map<int, pair<double, double>>& ranges)
+{
+	for (auto r : ranges) 
+	{
+		heightRanges.insert(r);
+	}
 }
 
 int Prism::getId() const
@@ -34,22 +51,31 @@ Polygon Prism::getBase() const
     return base;
 }
 
-pair<double,double> Prism::getHeightRange() const
+map<int, pair<double, double>> Prism::getHeightRanges() const
 {
-    return heightRange;
+    return heightRanges;
 }
 
 void Prism::printPrism() const
 {
-    cout << id << " " << heightRange.first << " " << heightRange.second << " ";
+	for (auto i : heightRanges) 
+	{
+		cout << i.first <<  " " << i.second.first << " " << i.second.second << endl;
+	}
+	cout << "Base: ";
     base.printPolygon();
 }
 
 string Prism::toString() const
 {
-	stringstream prismString;
-	prismString << id << " " << heightRange.first << " " << heightRange.second << " " << base.toString() << endl;
-	return prismString.str();
+	stringstream prismsString;
+	for (auto i : heightRanges)
+	{
+		prismsString << i.first << " " << i.second.first << " " << i.second.second << endl;
+	}
+	prismsString << "Base: " << base.toString() << endl << endl;
+
+	return prismsString.str();
 }
 
 Prism::~Prism()

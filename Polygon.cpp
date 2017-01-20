@@ -1,10 +1,17 @@
 #include "Polygon.h"
 
 
+Polygon::Polygon()
+{
+
+}
+
 Polygon::Polygon(vector<Vertex> verticesList)
 {
-    for(unsigned int i = 0; i < verticesList.size(); ++i)
-        addVertex(verticesList[i]);
+	for (unsigned int i = 0; i < verticesList.size(); ++i)
+	{
+		addVertex(verticesList[i]);
+	}
 }
 
 Polygon::Polygon(const Polygon& otherPolygon)
@@ -41,9 +48,59 @@ bool Polygon::operator==(const Polygon& otherPolygon) const
     return true;
 }
 
-void Polygon::addVertex(const Vertex &v)
+void Polygon::updateMinMax(const Vertex& v)
+{
+	double vX = v.getX();
+	double vY = v.getY();
+
+	if (vX < xMin) 
+		xMin = vX;
+	else if (vX > xMax) 
+		xMax = vX;
+
+	if (vY < yMin)
+		yMin = vY;
+	else if (vY > yMax)
+		yMax = vY;
+}
+
+
+void Polygon::addVertex(const Vertex& v)
 {
     verticesList.push_back(v);
+	updateMinMax(v);
+}
+
+bool Polygon::isInside(const Vertex& p)
+{
+	double pX = p.getX();
+	double pY = p.getY();
+	if (pX >= xMin && pX <= xMax && pY >= yMin && pY <= yMax)
+	{
+		Vertex outPoint(xMax + 5, yMax + 5);
+		LineSegment halfLine(p, outPoint);
+
+		int intersectionCount = 0;
+		int next;
+		for (int i = 0; i < verticesList.size(); ++i)
+		{
+			next = (i + 1) % verticesList.size();
+			LineSegment line(verticesList[i], verticesList[next]);
+			
+			if (line.isOnSegment(p))
+				return true;
+
+			if (line.doIntersect(halfLine))
+			{
+				pair<bool, Vertex> intersectionPoint = line.getIntersectionPoint(halfLine);
+
+				if (intersectionPoint.first)
+					++intersectionCount;
+			}
+		}
+		return intersectionCount % 2 == 0 ? true : false;
+	}
+	return false;
 }
 
 vector<Vertex> Polygon::getVerticesList() const

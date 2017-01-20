@@ -104,10 +104,7 @@ void DrawingPrisms::drawPrisms(const char* windowName)
 					GLfloat* vertices = new GLfloat[verticesNumbers[i] * 3];
 
 					for (int j = 0; j < verticesNumbers[i] * 3; ++j)
-					{
-						vertices[j] = verticesLists[i][j];
-					
-					}
+						vertices[j] = verticesLists[i][j];					
 
 					glBindBuffer(GL_ARRAY_BUFFER, VBO);
 					glBufferData(GL_ARRAY_BUFFER, verticesNumbers[i] * 3 * sizeof(vertices), vertices, GL_STATIC_DRAW);

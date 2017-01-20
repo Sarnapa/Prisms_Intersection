@@ -1,4 +1,5 @@
 #include "UserInterface.h"
+#include "LineSegment.h"
 
 using namespace std;
 
@@ -118,24 +119,76 @@ bool UserInterface::saveToGenFile() const
 	return true;
 }
 
+bool UserInterface::saveToOutFile(int algo) const
+{
+	fstream file;
+	file.open(outFile, ios::out);
+	if (file.good())
+	{
+		if (algo == 0)
+		{
+			for (Prism p : weilerAthertonResult)
+				file << p.toString();
+		}
+		file.close();
+	}
+	else
+	{
+		file.close();
+		return false;
+	}
+	return true;
+}
+
 ProgramMode UserInterface::getMode() const
 {
     return mode;
 }
 
-void UserInterface::drawPrisms() const
+void UserInterface::drawInputPrisms() const
 {
 	DrawingPrisms prismsWindow(prismsList, prismsNumber);
 	prismsWindow.drawPrisms("Prisms_Intersection - Input");
 }
 
-void UserInterface::printPrismsList() const
+void UserInterface::drawWAPrisms() const
 {
-    for(unsigned int i = 0; i < prismsList.size(); ++i)
-    {
-        prismsList[i].printPrism();
-    }
+	DrawingPrisms prismsWindow(weilerAthertonResult, prismsNumber);
+	prismsWindow.drawPrisms("Prisms_Intersection - Weiler - Atherton Algo result");
 }
+
+void UserInterface::printInputPrismsList() const
+{
+	for(unsigned int i = 0; i < prismsList.size(); ++i)
+        prismsList[i].printPrism();
+}
+
+void UserInterface::printWAPrismsList() const
+{
+	cout << "Weiler - Atherton Algorithm result: " << endl << endl;
+	for (unsigned int i = 0; i < weilerAthertonResult.size(); ++i)
+		weilerAthertonResult[i].printPrism();
+}
+
+void UserInterface::doWeilerAthertonAlgo()
+{
+	for (int i = 0; i < prismsList.size() - 1; ++i) 
+	{
+		for (int j = i + 1; j < prismsList.size(); ++j)
+		{
+			WeilerAthertonAlgorithm wa(prismsList[i], prismsList[j]);
+			wa.doAlgo();
+			wa.firstAllPointsPrint();
+			cout << endl;
+			wa.secondAllPointsPrint();
+			for (Prism p : wa.returnResult())
+			{
+				weilerAthertonResult.push_back(p);
+			}
+		}
+	}
+}
+
 
 void UserInterface::printInterface() const
 {
@@ -144,6 +197,6 @@ void UserInterface::printInterface() const
     cout << "Output File: " << outFile << endl;
     cout << "Prisms Number: " << prismsNumber << endl;
     cout << "Max Vertices Number in base: " << maxVerticesNumber << endl;
-    cout << "Prisms List" << endl;
-    printPrismsList();
+    cout << "Input Prisms List" << endl;
+    printInputPrismsList();
 }

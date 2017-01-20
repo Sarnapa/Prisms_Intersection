@@ -10,6 +10,7 @@
 #include "Polygon.h"
 #include "PrismsGenerator.h"
 #include "DrawingPrisms.h"
+#include "WeilerAthertonAlgorithm.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ class UserInterface
         string outFile;
         ProgramMode mode;
         vector<Prism> prismsList;
+		vector<Prism> weilerAthertonResult;
         int prismsNumber = 0;
         int maxVerticesNumber = 0; // in base
 		bool onlyConvexForGenerator = false;
@@ -37,13 +39,18 @@ class UserInterface
         bool parseCommand(int, char **);
         bool loadFromFile();
 		bool saveToGenFile() const;
+		bool saveToOutFile(int) const;
+		void doWeilerAthertonAlgo();
 		void usePrismsGenerator();
         ProgramMode getMode() const;
 
-		void drawPrisms() const;
+		void drawInputPrisms() const;
+		void drawWAPrisms() const;
+
 		void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-        void printPrismsList() const;
+        void printInputPrismsList() const;
+		void printWAPrismsList() const;
         void printInterface() const;
 };
 

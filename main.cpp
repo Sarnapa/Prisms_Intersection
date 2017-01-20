@@ -36,7 +36,12 @@ int main(int argc, char *argv[])
 				cout << "Cannot save generated data to file" << endl;
         }
         interface.printInterface();
-		interface.drawPrisms();
+		interface.drawInputPrisms();
+		interface.doWeilerAthertonAlgo();
+		if (!interface.saveToOutFile(0))
+			cout << "Cannot save WA algorithm result to file" << endl;
+		interface.printWAPrismsList();
+		interface.drawWAPrisms();
     }
 
     return 0;

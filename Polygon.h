@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Vertex.h"
+#include "LineSegment.h"
 
 using namespace std;
 
@@ -11,7 +12,12 @@ class Polygon
 {
     private:
         vector<Vertex> verticesList;
+		double xMin, xMax, yMin, yMax;
+
+		void updateMinMax(const Vertex&);
+		void addVertex(const Vertex&);
     public:
+		Polygon();
         Polygon(vector<Vertex>);
         Polygon(const Polygon&);
         ~Polygon();
@@ -19,7 +25,7 @@ class Polygon
         Polygon& operator=(const Polygon&);
         bool operator==(const Polygon&) const;
 
-        void addVertex(const Vertex&);
+		bool isInside(const Vertex&);
 
         vector<Vertex> getVerticesList() const;
 
