@@ -178,9 +178,8 @@ void UserInterface::doWeilerAthertonAlgo()
 		{
 			WeilerAthertonAlgorithm wa(prismsList[i], prismsList[j]);
 			wa.doAlgo();
-			wa.firstAllPointsPrint();
-			cout << endl;
-			wa.secondAllPointsPrint();
+			wa.p1AllPointsPrint();
+			wa.p2AllPointsPrint();
 			for (Prism p : wa.returnResult())
 			{
 				weilerAthertonResult.push_back(p);

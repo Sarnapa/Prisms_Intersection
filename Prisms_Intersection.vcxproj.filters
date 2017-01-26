@@ -39,10 +39,10 @@
     <ClCompile Include="PrismsGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WeilerAthertonAlgorithm.cpp">
+    <ClCompile Include="LineSegment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LineSegment.cpp">
+    <ClCompile Include="WeilerAthertonAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +68,10 @@
     <ClInclude Include="DrawingPrisms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WeilerAthertonAlgorithm.h">
+    <ClInclude Include="LineSegment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LineSegment.h">
+    <ClInclude Include="WeilerAthertonAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,8 +1,6 @@
 #include "Vertex.h"
 
-#define EPSILON 0.0005f
-
-Vertex::Vertex() {}
+Vertex::Vertex(): x(-1.0), y(-1.0) {}
 
 Vertex::Vertex(double _x, double _y): x(_x), y(_y) {}
 
@@ -67,6 +65,13 @@ bool Vertex::getVisited() const
 bool Vertex::getIsIntersectionPoint() const
 {
 	return isIntersectionPoint;
+}
+
+double Vertex::getDistance(const Vertex &v) const 
+{
+	double dx = v.x - x;
+	double dy = v.y - y;
+	return sqrt(dx * dx + dy * dy);
 }
 
 void Vertex::printVertex() const

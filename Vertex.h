@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cmath>
 
+#define EPSILON 0.0005
+
 using namespace std;
 
 class Vertex
@@ -34,6 +36,8 @@ class Vertex
         double getY() const;
 		bool getVisited() const;
 		bool getIsIntersectionPoint() const;
+
+		double getDistance(const Vertex&) const;
 
         void printVertex() const;
 		string toString() const;

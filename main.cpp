@@ -38,10 +38,10 @@ int main(int argc, char *argv[])
         interface.printInterface();
 		interface.drawInputPrisms();
 		interface.doWeilerAthertonAlgo();
-		if (!interface.saveToOutFile(0))
-			cout << "Cannot save WA algorithm result to file" << endl;
+		//if (!interface.saveToOutFile(0))
+			//cout << "Cannot save WA algorithm result to file" << endl;
 		interface.printWAPrismsList();
-		interface.drawWAPrisms();
+		///interface.drawWAPrisms();
     }
 
     return 0;
