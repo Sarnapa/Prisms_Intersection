@@ -26,7 +26,11 @@ class Polygon
         bool operator==(const Polygon&) const;
 
 		bool isInside(const Vertex&);
-
+		
+		double getXMin();
+		double getYMin();
+		double getXMax();
+		double getYMax();
         vector<Vertex> getVerticesList() const;
 
         void printPolygon() const;

@@ -35,44 +35,133 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 				{
 					if (intersectionPoint.second == firstLine.getV1())
 					{
+						//cout << "1" << endl;
+						// to avoid situation when we have two line segment on one side
 						if (LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Prev])
-							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next1]))
+							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next1])
+							&& LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Prev]) != 0)
 						{
-							cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-							//cout << "1" << endl;
-							p1Vertices[i].setIntersectionPoint(true);
-							p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+							if (!(intersectionPoint.second == secondLine.getV1()) &&
+								!(intersectionPoint.second == secondLine.getV2()))
+							{
+								//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
+								//cout << "1poWarunku" << endl;
+								p1Vertices[i].setIntersectionPoint(true);
+								p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+							}
+							else
+							{
+								if (intersectionPoint.second == secondLine.getV1() && !p1.getBase().isInside(secondLine.getV2()))
+								{
+									//cout << "1a" << endl;
+									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
+									//cout << "1poWarunku" << endl;
+
+									if (!((p2Vertices[p2Prev].getX() > p1.getBase().getXMax() && p2Vertices[p2Next1].getX() > p1.getBase().getXMax())
+										|| (p2Vertices[p2Prev].getX() < p1.getBase().getXMin() && p2Vertices[p2Next1].getX() < p1.getBase().getXMin())
+										|| (p2Vertices[p2Prev].getY() > p1.getBase().getYMax() && p2Vertices[p2Next1].getY() > p1.getBase().getYMax())
+										|| (p2Vertices[p2Prev].getY() < p1.getBase().getYMin() && p2Vertices[p2Next1].getY() < p1.getBase().getYMin())))
+									{
+										p1Vertices[i].setIntersectionPoint(true);
+										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+									}
+								}
+								else if (intersectionPoint.second == secondLine.getV2() && !p1.getBase().isInside(p2Vertices[p2Next2]))
+								{
+									//cout << "1b" << endl;
+									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
+									//cout << "1poWarunku" << endl;
+									if (!((p2Vertices[j].getX() > p1.getBase().getXMax() && p2Vertices[p2Next2].getX() > p1.getBase().getXMax())
+										|| (p2Vertices[j].getX() < p1.getBase().getXMin() && p2Vertices[p2Next2].getX() < p1.getBase().getXMin())
+										|| (p2Vertices[j].getY() > p1.getBase().getYMax() && p2Vertices[p2Next2].getY() > p1.getBase().getYMax())
+										|| (p2Vertices[j].getY() < p1.getBase().getYMin() && p2Vertices[p2Next2].getY() < p1.getBase().getYMin())))
+									{
+										p1Vertices[i].setIntersectionPoint(true);
+										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+									}
+								}
+							}
 						}
 					}
 					else if (intersectionPoint.second == firstLine.getV2())
 					{
+						//cout << "2" << endl;+
+
 						if (LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[i])
-							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2]))
+							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2])
+							&& LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2]) != 0)
 						{
-							cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-							//cout << "2" << endl;
-							p1Vertices[p1Next1].setIntersectionPoint(true);
-							p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+							if (!(intersectionPoint.second == secondLine.getV1()) &&
+								!(intersectionPoint.second == secondLine.getV2()))
+							{
+								//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
+								//cout << "2poWarunku" << endl;
+								p1Vertices[p1Next1].setIntersectionPoint(true);
+								p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+							}
+							else
+							{
+								if (intersectionPoint.second == secondLine.getV1() && !p1.getBase().isInside(secondLine.getV2()))
+								{
+									//cout << "2a" << endl;
+									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
+									//cout << "1poWarunku" << endl;
+									if (!((p2Vertices[p2Prev].getX() > p1.getBase().getXMax() && p2Vertices[p2Next1].getX() > p1.getBase().getXMax())
+										|| (p2Vertices[p2Prev].getX() < p1.getBase().getXMin() && p2Vertices[p2Next1].getX() < p1.getBase().getXMin())
+										|| (p2Vertices[p2Prev].getY() > p1.getBase().getYMax() && p2Vertices[p2Next1].getY() > p1.getBase().getYMax())
+										|| (p2Vertices[p2Prev].getY() < p1.getBase().getYMin() && p2Vertices[p2Next1].getY() < p1.getBase().getYMin())))
+									{
+										p1Vertices[p1Next1].setIntersectionPoint(true);
+										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+									}
+								}
+								else if (intersectionPoint.second == secondLine.getV2() && !p1.getBase().isInside(p2Vertices[p2Next2]))
+								{
+									//cout << "2b" << endl;
+									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
+									//cout << "1poWarunku" << endl;
+									if (!((p2Vertices[j].getX() > p1.getBase().getXMax() && p2Vertices[p2Next2].getX() > p1.getBase().getXMax())
+										|| (p2Vertices[j].getX() < p1.getBase().getXMin() && p2Vertices[p2Next2].getX() < p1.getBase().getXMin())
+										|| (p2Vertices[j].getY() > p1.getBase().getYMax() && p2Vertices[p2Next2].getY() > p1.getBase().getYMax())
+										|| (p2Vertices[j].getY() < p1.getBase().getYMin() && p2Vertices[p2Next2].getY() < p1.getBase().getYMin())))
+									{
+										p1Vertices[p1Next1].setIntersectionPoint(true);
+										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
+									}
+								}
+							}
 						}
 					}
 					else if (intersectionPoint.second == secondLine.getV1())
 					{
+						//cout << "3" << endl;
 						if (LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Prev])
-							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next1]))
+							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next1])
+							&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Prev]) != 0)
 						{
-							//cout << "3" << endl;
-							p2Vertices[j].setIntersectionPoint(true);
-							p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
+							if (!(intersectionPoint.second == firstLine.getV1()) &&
+								!(intersectionPoint.second == firstLine.getV2()))
+							{
+								//cout << "3poWarunku" << endl;
+								p2Vertices[j].setIntersectionPoint(true);
+								p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
+							}
 						}
 					}
 					else if (intersectionPoint.second == secondLine.getV2())
 					{
+						//cout << "4" << endl;
 						if (LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[j])
-							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2]))
+							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2])
+							&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2]) != 0)
 						{
-							//cout << "4" << endl;
-							p2Vertices[p2Next1].setIntersectionPoint(true);
-							p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
+							if (!(intersectionPoint.second == firstLine.getV1()) &&
+								!(intersectionPoint.second == firstLine.getV2()))
+							{
+								//cout << "4poWarunku" << endl;
+								p2Vertices[p2Next1].setIntersectionPoint(true);
+								p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
+							}
 						}
 					}
 					else
@@ -94,6 +183,7 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 
 void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex> intersectionPoints)
 {
+	vector<Vertex> tempVertexVector;
 	if (polygonNumber == 0)
 	{
 		for (int i = 0; i < p1Vertices.size(); ++i)
@@ -107,7 +197,7 @@ void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex
 					if (v == p1Vertices[i])
 					{
 						p1Vertices[i].setIntersectionPoint(true);
-						p1AllPoints[p1AllPoints.size() - 1].setIntersectionPoint(true);
+						p1AllPoints.back().setIntersectionPoint(true);
 					}
 					else if (v == p1Vertices[(i + 1) % p1Vertices.size()])
 					{
@@ -116,9 +206,13 @@ void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex
 							p1AllPoints[0].setIntersectionPoint(true);
 					}
 					else
-						p1AllPoints.push_back(v);
+						tempVertexVector.push_back(v);
 				}
 			}
+			sort(tempVertexVector.begin(), tempVertexVector.end(), DistanceFunc(p1Vertices[i]));
+			for (Vertex v : tempVertexVector)
+				p1AllPoints.push_back(v);
+			tempVertexVector.clear();
 		}
 	}
 	else
@@ -144,9 +238,13 @@ void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex
 							p2AllPoints[0].setIntersectionPoint(true);
 					}
 					else
-						p2AllPoints.push_back(v);
+						tempVertexVector.push_back(v);
 				}
 			}
+			sort(tempVertexVector.begin(), tempVertexVector.end(), DistanceFunc(p2Vertices[i]));
+			for (Vertex v : tempVertexVector)
+				p2AllPoints.push_back(v);
+			tempVertexVector.clear();
 		}
 	}
 }

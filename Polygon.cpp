@@ -64,7 +64,25 @@ void Polygon::updateMinMax(const Vertex& v)
 		yMax = vY;
 }
 
+double Polygon::getXMin()
+{
+	return xMin;
+}
 
+double Polygon::getYMin()
+{
+	return yMin;
+}
+
+double Polygon::getXMax()
+{
+	return xMax;
+}
+
+double Polygon::getYMax()
+{
+	return yMax;
+}
 void Polygon::addVertex(const Vertex& v)
 {
     verticesList.push_back(v);
@@ -77,9 +95,10 @@ bool Polygon::isInside(const Vertex& p)
 	double pY = p.getY();
 	if (pX >= xMin && pX <= xMax && pY >= yMin && pY <= yMax)
 	{
-		Vertex outPoint(xMax + 5, yMax + 5);
+		Vertex outPoint(xMax + 3, yMax + 7);
 		LineSegment halfLine(p, outPoint);
 
+		//cout << p.getX() << " " << p.getY() << endl;
 		int intersectionCount = 0;
 		int next;
 		for (int i = 0; i < verticesList.size(); ++i)
@@ -96,9 +115,12 @@ bool Polygon::isInside(const Vertex& p)
 
 				if (intersectionPoint.first)
 					++intersectionCount;
+				// if vertex
+				if (intersectionPoint.second == line.getV1() || intersectionPoint.second == line.getV2())
+					++i;
 			}
 		}
-		return intersectionCount % 2 == 0 ? true : false;
+		return intersectionCount % 2 == 0 ? false : true;
 	}
 	return false;
 }

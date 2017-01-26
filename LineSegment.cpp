@@ -70,6 +70,15 @@ bool LineSegment::isOnSegment(const Vertex& q)
 	return false;
 }
 
+bool LineSegment::isOnLine(const Vertex& point) const 
+{
+	float len = v1.getDistance(v2);
+	if (approximatelyEqual(v1.getDistance(point) + point.getDistance(v2), len))
+		return true;
+	else
+		return false;
+}
+
 int LineSegment::getOrientation(const Vertex& p, const Vertex& q, const Vertex& r)
 {
 	int val = (q.getY() - p.getY()) * (r.getX() - q.getX()) - (q.getX() - p.getX()) * (r.getY() - q.getY());

@@ -40,6 +40,9 @@ public:
 	// this function is for 3 colinear points
 	bool isOnSegment(const Vertex&);
 
+	// check if point lies on line
+	bool isOnLine(const Vertex&) const;
+
 	// The function that returns true if line segment
 	// and other line segment intersect.
 	bool doIntersect(const LineSegment&) const;

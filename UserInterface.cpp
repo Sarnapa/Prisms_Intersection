@@ -92,7 +92,7 @@ Prism UserInterface::generatePrism(string prismLine)
         vertices.push_back(Vertex(x,y));
     }
     Polygon base(vertices);
-    return Prism(id, base, make_pair(x,y));
+    return Prism(id, base, make_pair(minZ, maxZ));
 }
 
 void UserInterface::usePrismsGenerator()

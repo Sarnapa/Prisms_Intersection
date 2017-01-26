@@ -4,6 +4,20 @@
 #include <map>
 #include "Prism.h"
 
+// Struct for sorting points
+struct DistanceFunc
+{
+	DistanceFunc(const Vertex& _p) : p(_p) {}
+
+	bool operator()(const Vertex& p1, const Vertex& p2) const
+	{
+		return p.getDistance(p1) < p.getDistance(p2);
+	}
+
+private:
+	Vertex p;
+};
+
 class WeilerAthertonAlgorithm
 {
 private:
