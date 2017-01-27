@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #include "PrismsGenerator.h"
 
 int PrismsGenerator::id = 0;

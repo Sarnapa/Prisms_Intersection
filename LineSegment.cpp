@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #include <iostream>
 #include <sstream>
 #include <cmath>

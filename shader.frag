@@ -1,3 +1,9 @@
+
+	//Micha³ Piotrak
+	//numer albumu: 269336
+	//Przeciêcie graniastos³upów
+
+
 #version 330 core
 
 out vec4 color;

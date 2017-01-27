@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #include "Polygon.h"
 
 
@@ -10,7 +16,7 @@ Polygon::Polygon(vector<Vertex> verticesList)
 {
 	for (unsigned int i = 0; i < verticesList.size(); ++i)
 	{
-		addVertex(verticesList[i]);
+			addVertex(verticesList[i]);
 	}
 }
 
@@ -85,8 +91,13 @@ double Polygon::getYMax()
 }
 void Polygon::addVertex(const Vertex& v)
 {
-    verticesList.push_back(v);
-	updateMinMax(v);
+	Vertex vNew = v;
+	if (vNew.getX() == -0.0)
+		vNew.setX(0.0);
+	if (vNew.getY() == -0.0)
+		vNew.setY(0.0);
+    verticesList.push_back(vNew);
+	updateMinMax(vNew);
 }
 
 bool Polygon::isInside(const Vertex& p)
@@ -123,6 +134,15 @@ bool Polygon::isInside(const Vertex& p)
 		return intersectionCount % 2 == 0 ? false : true;
 	}
 	return false;
+}
+
+void Polygon::clearVertices()
+{
+	for (int i = 0; i < verticesList.size(); ++i)
+	{
+		verticesList[i].setIntersectionPoint(false);
+		verticesList[i].setIntersectionPoint(false);
+	}
 }
 
 vector<Vertex> Polygon::getVerticesList() const

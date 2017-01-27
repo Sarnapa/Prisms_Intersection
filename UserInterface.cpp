@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #include "UserInterface.h"
 #include "LineSegment.h"
 
@@ -170,32 +176,130 @@ void UserInterface::printWAPrismsList() const
 		weilerAthertonResult[i].printPrism();
 }
 
+void UserInterface::addPrismFromWeilerAtherthonAlgo(const Prism& p)
+{
+	bool isBase = false;
+	for (int k = 0; k < weilerAthertonResult.size(); ++k)
+	{
+		if (!(p == weilerAthertonResult[k]))
+		{
+			if (p.getBase() == weilerAthertonResult[k].getBase())
+			{
+				isBase = true;
+				weilerAthertonResult[k].addHeightRanges(p.getHeightRanges());
+				break;
+			}
+		}
+		else
+		{
+			isBase = true;
+			break;
+		}
+	}
+	if (!isBase)
+	{
+		weilerAthertonResult.push_back(p);
+	}
+}
+
 void UserInterface::doWeilerAthertonAlgo()
 {
+	vector<Prism> intersectionParts;
 	for (int i = 0; i < prismsList.size() - 1; ++i) 
 	{
 		for (int j = i + 1; j < prismsList.size(); ++j)
 		{
 			WeilerAthertonAlgorithm wa(prismsList[i], prismsList[j]);
 			wa.doAlgo();
-			wa.p1AllPointsPrint();
-			wa.p2AllPointsPrint();
-			for (Prism p : wa.returnResult())
+			for (Prism p : wa.returnInputParts())
+				addPrismFromWeilerAtherthonAlgo(p);
+			for (Prism p : wa.returnIntersectionParts())
 			{
 				bool isBase = false;
 				for (int k = 0; k < weilerAthertonResult.size(); ++k)
 				{
-					if (p.getBase() == weilerAthertonResult[k].getBase())
+					if (!(p == weilerAthertonResult[k]))
+					{
+						if (p.getBase() == weilerAthertonResult[k].getBase())
+						{
+							isBase = true;
+							weilerAthertonResult[k].addHeightRanges(p.getHeightRanges());
+							intersectionParts.push_back(p);
+							break;
+						}
+					}
+					else
 					{
 						isBase = true;
-						weilerAthertonResult[k].addHeightRanges(p.getHeightRanges());
+						intersectionParts.push_back(p);
+						break;
 					}
 				}
 				if (!isBase)
-					weilerAthertonResult.push_back(p);
+				{
+					intersectionParts.push_back(p);
+					//weilerAthertonResult.push_back(p);
+				}
 			}
 		}
 	}
+
+	vector<Prism> inputParts;
+	for (Prism p : intersectionParts)
+		inputParts.push_back(p);
+	intersectionParts.clear();
+	while (inputParts.size() > 1)
+	{
+		for (int i = 0; i < inputParts.size() - 1; ++i)
+		{
+			for (int j = i + 1; j < inputParts.size(); ++j)
+			{
+				Polygon polygon1 = inputParts[i].getBase();
+				polygon1.clearVertices();
+				Prism p1(inputParts[i].getId(), polygon1, inputParts[i].getHeightRanges());
+				Polygon polygon2 = inputParts[j].getBase();
+				polygon2.clearVertices();
+				Prism p2(inputParts[j].getId(), polygon2, inputParts[j].getHeightRanges());
+				WeilerAthertonAlgorithm wa(p1, p2);
+				wa.doAlgo();
+				for (Prism p : inputParts)
+					addPrismFromWeilerAtherthonAlgo(p);
+				for (Prism p : wa.returnIntersectionParts())
+				{
+					bool isBase = false;
+					for (int k = 0; k < weilerAthertonResult.size(); ++k)
+					{
+						if (!(p == weilerAthertonResult[k]))
+						{
+							if (p.getBase() == weilerAthertonResult[k].getBase())
+							{
+								isBase = true;
+								weilerAthertonResult[k].addHeightRanges(p.getHeightRanges());
+								intersectionParts.push_back(p);
+								break;
+							}
+						}
+						else
+						{
+							isBase = true;
+							intersectionParts.push_back(p);
+							break;
+						}
+					}
+					if (!isBase)
+					{
+						intersectionParts.push_back(p);
+					}
+				}
+			}
+		}
+		inputParts.clear();
+		for (Prism p : intersectionParts)
+			inputParts.push_back(p);
+		intersectionParts.clear();
+	}
+	if (inputParts.size() == 1)
+		addPrismFromWeilerAtherthonAlgo(inputParts[0]);
 }
 
 

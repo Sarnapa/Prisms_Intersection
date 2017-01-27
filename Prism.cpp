@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #include "Prism.h"
 
 Prism::Prism()
@@ -18,6 +24,14 @@ Prism::Prism(const Prism& otherPrism): id(otherPrism.id), base(otherPrism.base),
 {
 }
 
+Prism::Prism(int id, Polygon polygon, map<int, pair<double, double>> heightRanges)
+{
+	this->id = id;
+	this->base = polygon;
+	this->heightRanges = heightRanges;
+}
+
+
 Prism& Prism::operator=(const Prism& otherPrism)
 {
     id = otherPrism.id;
@@ -28,7 +42,7 @@ Prism& Prism::operator=(const Prism& otherPrism)
 
 bool Prism::operator==(const Prism& otherPrism) const
 {
-    if(base == otherPrism.base && heightRanges == otherPrism.heightRanges)
+    if(base == otherPrism.base && heightRanges == otherPrism.heightRanges && id == otherPrism.id)
         return true;
     else
         return false;
@@ -36,16 +50,27 @@ bool Prism::operator==(const Prism& otherPrism) const
 
 void Prism::addHeightRange(int id, pair<double, double> heightRange)
 {
-	heightRanges.insert(make_pair(id, heightRange));
+	bool isThisHeightRange = false;
+	for (auto r : heightRanges)
+	{
+		if (r.second == heightRange && r.first == id)
+		{
+			isThisHeightRange = true;
+			break;
+		}
+	}
+	if (!isThisHeightRange)
+		heightRanges.insert(make_pair(id, heightRange));
 }
 
 void Prism::addHeightRanges(const map<int, pair<double, double>>& ranges)
 {
 	for (auto r : ranges) 
 	{
-		heightRanges.insert(r);
+		addHeightRange(r.first, r.second);
 	}
 }
+
 
 int Prism::getId() const
 {

@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #include "WeilerAthertonAlgorithm.h"
 
 
@@ -292,6 +298,17 @@ int WeilerAthertonAlgorithm::getFromOtherPolygon(int polygonNumber, Vertex v)
 	}
 }
 
+int WeilerAthertonAlgorithm::countIntersectionPointsNumber()
+{
+	int number = 0;
+	for (Vertex v : p1AllPoints)
+	{
+		if (v.getIsIntersectionPoint())
+			++number;
+	}
+	return number;
+}
+
 void WeilerAthertonAlgorithm::doAlgo()
 {
 	if (checkIfTheSame())
@@ -303,20 +320,20 @@ void WeilerAthertonAlgorithm::doAlgo()
 	{
 		if (!checkIfInside())
 		{
-			results.push_back(p1);
-			results.push_back(p2);
+			inputParts.push_back(p1);
+			inputParts.push_back(p2);
 		}
 		return;
 	}
 
-	int intersectionPointsNumber = p1AllPoints.size() - p1Vertices.size();
+	int intersectionPointsNumber = countIntersectionPointsNumber();
 	if (intersectionPointsNumber > 1)
 	{
-		results.push_back(p1);
-		results.push_back(p2);
+		inputParts.push_back(p1);
+		inputParts.push_back(p2);
 		bool allIntersectionPointsVisited = false;
 		int polygonFlag = 0; // p1
-		int intersectionCurrentNumber = 0;
+		int intersectionCurrentNumber = 1; // because of startPoint
 		int startIndex = getStartPoint();
 		int currentIndex = startIndex;
 		p1AllPoints[startIndex].setVisited(true);
@@ -334,6 +351,7 @@ void WeilerAthertonAlgorithm::doAlgo()
 				if (!(currentPoint == startPoint))
 				{
 					tmpPoints.push_back(currentPoint);
+
 					if (currentPoint.getIsIntersectionPoint())
 					{
 						++intersectionCurrentNumber;
@@ -352,6 +370,7 @@ void WeilerAthertonAlgorithm::doAlgo()
 				if (!(currentPoint == startPoint))
 				{
 					tmpPoints.push_back(currentPoint);
+
 					if (currentPoint.getIsIntersectionPoint())
 					{
 						++intersectionCurrentNumber;
@@ -367,7 +386,7 @@ void WeilerAthertonAlgorithm::doAlgo()
 				Prism p3 = Prism(p1.getId() + p2.getId(), Polygon(tmpPoints));
 				p3.addHeightRanges(p1.getHeightRanges());
 				p3.addHeightRanges(p2.getHeightRanges());
-				results.push_back(p3);
+				intersectionParts.push_back(p3);
 				if (intersectionCurrentNumber == intersectionPointsNumber)
 					allIntersectionPointsVisited = true;
 				else
@@ -389,7 +408,7 @@ bool WeilerAthertonAlgorithm::checkIfTheSame()
 	if (p1.getBase() == p2.getBase())
 	{
 		p1.addHeightRanges(p2.getHeightRanges());
-		results.push_back(p1);
+		inputParts.push_back(p1);
 		return true;
 	}
 	return false;
@@ -418,20 +437,21 @@ bool WeilerAthertonAlgorithm::checkIfInside()
 		}
 	}
 
+
 	if (!isOutside1)
 	{
 		Prism p3 = p2;
 		p3.addHeightRanges(p1.getHeightRanges());
-		results.push_back(p3);
-		results.push_back(p1);
+		intersectionParts.push_back(p3);
+		inputParts.push_back(p1);
 		return true;
 	}
 	else if (!isOutside2)
 	{
 		Prism p3 = p1;
 		p3.addHeightRanges(p2.getHeightRanges());
-		results.push_back(p3);
-		results.push_back(p2);
+		intersectionParts.push_back(p3);
+		inputParts.push_back(p2);
 		return true;
 	}
 	return false;
@@ -451,8 +471,22 @@ void WeilerAthertonAlgorithm::p2AllPointsPrint() const
 	cout << endl;
 }
 
+vector<Prism> WeilerAthertonAlgorithm::returnInputParts()
+{
+	return inputParts;
+}
+
+vector<Prism> WeilerAthertonAlgorithm::returnIntersectionParts()
+{
+	return intersectionParts;
+}
+
 vector<Prism> WeilerAthertonAlgorithm::returnResult() 
 {
+	for (Prism p : inputParts)
+		results.push_back(p);
+	for (Prism p : intersectionParts)
+		results.push_back(p);
 	return results;
 }
 

@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak	
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #ifndef PRISMSGENERATOR_H
 #define PRISMSGENERATOR_H
 

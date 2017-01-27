@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
@@ -40,6 +46,7 @@ class UserInterface
         bool loadFromFile();
 		bool saveToGenFile() const;
 		bool saveToOutFile(int) const;
+		void addPrismFromWeilerAtherthonAlgo(const Prism&);
 		void doWeilerAthertonAlgo();
 		void usePrismsGenerator();
         ProgramMode getMode() const;

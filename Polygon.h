@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #ifndef POLYGON_H
 #define POLYGON_H
 
@@ -26,7 +32,8 @@ class Polygon
         bool operator==(const Polygon&) const;
 
 		bool isInside(const Vertex&);
-		
+		void clearVertices();
+
 		double getXMin();
 		double getYMin();
 		double getXMax();

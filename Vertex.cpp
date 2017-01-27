@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #include "Vertex.h"
 
 Vertex::Vertex(): x(-1.0), y(-1.0) {}
@@ -87,7 +93,7 @@ void Vertex::printVertex() const
 string Vertex::toString() const
 {
 	stringstream vertexString;
-	vertexString << "(" << x << ", " << y << ", " << isIntersectionPoint << " )";
+	vertexString << "(" << x << ", " << y << " )";
 	return vertexString.str();
 }
 

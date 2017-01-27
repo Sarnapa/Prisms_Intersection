@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #pragma once
 
 #include <vector>
@@ -24,6 +30,8 @@ private:
 	Prism p1, p2;
 	vector<Vertex> p1Vertices, p2Vertices;
 	vector<Vertex> p1AllPoints, p2AllPoints;
+	vector<Prism> inputParts;
+	vector<Prism> intersectionParts;
 	vector<Prism> results;
 	
 	void generateAllPoints();
@@ -33,12 +41,15 @@ private:
 	int getStartPoint();
 	int getNext(int, Vertex);
 	int getFromOtherPolygon(int, Vertex);
+	int countIntersectionPointsNumber();
 public:
 	WeilerAthertonAlgorithm(const Prism&, const Prism&);
 	~WeilerAthertonAlgorithm();
 
 	void doAlgo();
 
+	vector<Prism> returnInputParts();
+	vector<Prism> returnIntersectionParts();
 	vector<Prism> returnResult();
 
 	void p1AllPointsPrint() const;

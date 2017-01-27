@@ -1,3 +1,9 @@
+/*
+	Micha³ Piotrak
+	numer albumu: 269336
+	Przeciêcie graniastos³upów
+*/
+
 #ifndef PRISM_H
 #define PRISM_H
 
@@ -14,6 +20,7 @@ class Prism
 		Prism();
 		Prism(int, Polygon);
         Prism(int, Polygon, pair<double,double>);
+		Prism(int, Polygon, map<int, pair<double, double>>);
         Prism(const Prism&);
         ~Prism();
 
