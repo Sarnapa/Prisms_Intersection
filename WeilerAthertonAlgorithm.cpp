@@ -35,7 +35,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 				{
 					if (intersectionPoint.second == firstLine.getV1())
 					{
-						//cout << "1" << endl;
 						// to avoid situation when we have two line segment on one side
 						if (LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Prev])
 							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next1])
@@ -44,8 +43,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							if (!(intersectionPoint.second == secondLine.getV1()) &&
 								!(intersectionPoint.second == secondLine.getV2()))
 							{
-								//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-								//cout << "1poWarunku" << endl;
 								p1Vertices[i].setIntersectionPoint(true);
 								p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
 							}
@@ -53,10 +50,7 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							{
 								if (intersectionPoint.second == secondLine.getV1() && !p1.getBase().isInside(secondLine.getV2()))
 								{
-									//cout << "1a" << endl;
-									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-									//cout << "1poWarunku" << endl;
-
+									// cases when only intersection part is one vertex
 									if (!((p2Vertices[p2Prev].getX() > p1.getBase().getXMax() && p2Vertices[p2Next1].getX() > p1.getBase().getXMax())
 										|| (p2Vertices[p2Prev].getX() < p1.getBase().getXMin() && p2Vertices[p2Next1].getX() < p1.getBase().getXMin())
 										|| (p2Vertices[p2Prev].getY() > p1.getBase().getYMax() && p2Vertices[p2Next1].getY() > p1.getBase().getYMax())
@@ -68,9 +62,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 								}
 								else if (intersectionPoint.second == secondLine.getV2() && !p1.getBase().isInside(p2Vertices[p2Next2]))
 								{
-									//cout << "1b" << endl;
-									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-									//cout << "1poWarunku" << endl;
 									if (!((p2Vertices[j].getX() > p1.getBase().getXMax() && p2Vertices[p2Next2].getX() > p1.getBase().getXMax())
 										|| (p2Vertices[j].getX() < p1.getBase().getXMin() && p2Vertices[p2Next2].getX() < p1.getBase().getXMin())
 										|| (p2Vertices[j].getY() > p1.getBase().getYMax() && p2Vertices[p2Next2].getY() > p1.getBase().getYMax())
@@ -85,8 +76,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					}
 					else if (intersectionPoint.second == firstLine.getV2())
 					{
-						//cout << "2" << endl;+
-
 						if (LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[i])
 							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2])
 							&& LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2]) != 0)
@@ -94,8 +83,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							if (!(intersectionPoint.second == secondLine.getV1()) &&
 								!(intersectionPoint.second == secondLine.getV2()))
 							{
-								//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-								//cout << "2poWarunku" << endl;
 								p1Vertices[p1Next1].setIntersectionPoint(true);
 								p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
 							}
@@ -103,9 +90,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							{
 								if (intersectionPoint.second == secondLine.getV1() && !p1.getBase().isInside(secondLine.getV2()))
 								{
-									//cout << "2a" << endl;
-									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-									//cout << "1poWarunku" << endl;
 									if (!((p2Vertices[p2Prev].getX() > p1.getBase().getXMax() && p2Vertices[p2Next1].getX() > p1.getBase().getXMax())
 										|| (p2Vertices[p2Prev].getX() < p1.getBase().getXMin() && p2Vertices[p2Next1].getX() < p1.getBase().getXMin())
 										|| (p2Vertices[p2Prev].getY() > p1.getBase().getYMax() && p2Vertices[p2Next1].getY() > p1.getBase().getYMax())
@@ -117,9 +101,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 								}
 								else if (intersectionPoint.second == secondLine.getV2() && !p1.getBase().isInside(p2Vertices[p2Next2]))
 								{
-									//cout << "2b" << endl;
-									//cout << i << " " << j << " " << intersectionPoint.second.getX() << " " << intersectionPoint.second.getY() << endl;
-									//cout << "1poWarunku" << endl;
 									if (!((p2Vertices[j].getX() > p1.getBase().getXMax() && p2Vertices[p2Next2].getX() > p1.getBase().getXMax())
 										|| (p2Vertices[j].getX() < p1.getBase().getXMin() && p2Vertices[p2Next2].getX() < p1.getBase().getXMin())
 										|| (p2Vertices[j].getY() > p1.getBase().getYMax() && p2Vertices[p2Next2].getY() > p1.getBase().getYMax())
@@ -134,7 +115,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					}
 					else if (intersectionPoint.second == secondLine.getV1())
 					{
-						//cout << "3" << endl;
 						if (LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Prev])
 							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next1])
 							&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Prev]) != 0)
@@ -142,7 +122,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							if (!(intersectionPoint.second == firstLine.getV1()) &&
 								!(intersectionPoint.second == firstLine.getV2()))
 							{
-								//cout << "3poWarunku" << endl;
 								p2Vertices[j].setIntersectionPoint(true);
 								p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
 							}
@@ -150,7 +129,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					}
 					else if (intersectionPoint.second == secondLine.getV2())
 					{
-						//cout << "4" << endl;
 						if (LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[j])
 							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2])
 							&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2]) != 0)
@@ -158,7 +136,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							if (!(intersectionPoint.second == firstLine.getV1()) &&
 								!(intersectionPoint.second == firstLine.getV2()))
 							{
-								//cout << "4poWarunku" << endl;
 								p2Vertices[p2Next1].setIntersectionPoint(true);
 								p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
 							}
@@ -166,7 +143,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					}
 					else
 					{
-						//cout << "5" << endl;
 						p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
 						p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
 					}
@@ -176,7 +152,6 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 		}
 		p1Prev = i;
 	}
-	cout << endl << endl;
 	sortPoints(0, p1IntersectionPoints);
 	sortPoints(1, p2IntersectionPoints);
 }
@@ -224,7 +199,6 @@ void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex
 			{
 				if (iter->first == i)
 				{
-					//cout << i << " " << iter->second.getX() << " " << iter->second.getY() << endl;
 					Vertex v = iter->second;
 					if (v == p2Vertices[i])
 					{
@@ -249,28 +223,218 @@ void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex
 	}
 }
 
+int WeilerAthertonAlgorithm::getStartPoint()
+{
+	int posVertex = 0;
+	for (int i = 0; i < p1AllPoints.size(); ++i)
+	{
+		int iNext = (i + 1) % p1AllPoints.size();
+		// second point can be next intersection Point or point that is inside of second polygon
+		if (p1AllPoints[i].getIsIntersectionPoint() && !p1AllPoints[i].getVisited() && (p1AllPoints[iNext].getIsIntersectionPoint() ||
+			p2.getBase().isInside(p1AllPoints[iNext])))
+		{
+			posVertex = i;
+			break;
+		}
+	}
+	return posVertex;
+}
+
+int WeilerAthertonAlgorithm::getNext(int polygonNumber, Vertex v)
+{
+	if (polygonNumber == 0)
+	{
+		for (int i = 0; i < p1AllPoints.size(); ++i)
+		{
+			if (p1AllPoints[i] == v)
+			{
+				return (i + 1) % p1AllPoints.size();
+				break;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < p2AllPoints.size(); ++i)
+		{
+			if (p2AllPoints[i] == v)
+			{
+				return (i + 1) % p2AllPoints.size();
+				break;
+			}
+		}
+	}
+}
+
+int WeilerAthertonAlgorithm::getFromOtherPolygon(int polygonNumber, Vertex v)
+{
+	if (polygonNumber == 0)
+	{
+		for (int i = 0; i < p2AllPoints.size(); ++i)
+		{
+			if (p2AllPoints[i] == v)
+			{
+				return i;
+				break;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < p1AllPoints.size(); ++i)
+		{
+			if (p1AllPoints[i] == v)
+			{
+				return i;
+				break;
+			}
+		}
+	}
+}
+
 void WeilerAthertonAlgorithm::doAlgo()
 {
+	if (checkIfTheSame())
+		return;
+
 	generateAllPoints();
 
 	if (p1AllPoints.size() == p1Vertices.size() && p2AllPoints.size() == p2Vertices.size())
 	{
-		if (checkIfInside())
-			cout << "no elo" << endl;
+		if (!checkIfInside())
+		{
+			results.push_back(p1);
+			results.push_back(p2);
+		}
+		return;
 	}
+
+	int intersectionPointsNumber = p1AllPoints.size() - p1Vertices.size();
+	if (intersectionPointsNumber > 1)
+	{
+		results.push_back(p1);
+		results.push_back(p2);
+		bool allIntersectionPointsVisited = false;
+		int polygonFlag = 0; // p1
+		int intersectionCurrentNumber = 0;
+		int startIndex = getStartPoint();
+		int currentIndex = startIndex;
+		p1AllPoints[startIndex].setVisited(true);
+		Vertex startPoint = p1AllPoints[startIndex];
+		Vertex currentPoint = startPoint;
+		vector<Vertex> tmpPoints;
+		tmpPoints.push_back(startPoint);
+		while (!allIntersectionPointsVisited)
+		{
+			if (polygonFlag == 0)
+			{
+				currentIndex = getNext(0, currentPoint);
+				p1AllPoints[currentIndex].setVisited(true);
+				currentPoint = p1AllPoints[currentIndex];
+				if (!(currentPoint == startPoint))
+				{
+					tmpPoints.push_back(currentPoint);
+					if (currentPoint.getIsIntersectionPoint())
+					{
+						++intersectionCurrentNumber;
+						currentIndex = getFromOtherPolygon(0, currentPoint);
+						p2AllPoints[currentIndex].setVisited(true);
+						currentPoint = p2AllPoints[currentIndex];
+						polygonFlag = 1;
+					}
+				}
+			}
+			else
+			{
+				currentIndex = getNext(1, currentPoint);
+				p2AllPoints[currentIndex].setVisited(true);
+				currentPoint = p2AllPoints[currentIndex];
+				if (!(currentPoint == startPoint))
+				{
+					tmpPoints.push_back(currentPoint);
+					if (currentPoint.getIsIntersectionPoint())
+					{
+						++intersectionCurrentNumber;
+						currentIndex = getFromOtherPolygon(1, currentPoint);
+						p1AllPoints[currentIndex].setVisited(true);
+						currentPoint = p1AllPoints[currentIndex];
+						polygonFlag = 0;
+					}
+				}
+			}
+			if (currentPoint == startPoint)
+			{
+				Prism p3 = Prism(p1.getId() + p2.getId(), Polygon(tmpPoints));
+				p3.addHeightRanges(p1.getHeightRanges());
+				p3.addHeightRanges(p2.getHeightRanges());
+				results.push_back(p3);
+				if (intersectionCurrentNumber == intersectionPointsNumber)
+					allIntersectionPointsVisited = true;
+				else
+				{
+					startIndex = getStartPoint();
+					p1AllPoints[startIndex].setVisited(true);
+					startPoint = p1AllPoints[startIndex];
+					currentPoint = startPoint;
+					tmpPoints.clear();
+					tmpPoints.push_back(startPoint);
+				}
+			}
+		}
+	}
+}
+
+bool WeilerAthertonAlgorithm::checkIfTheSame()
+{
+	if (p1.getBase() == p2.getBase())
+	{
+		p1.addHeightRanges(p2.getHeightRanges());
+		results.push_back(p1);
+		return true;
+	}
+	return false;
 }
 
 bool WeilerAthertonAlgorithm::checkIfInside()
 {
-	if (p1.getBase().isInside(p2Vertices[0]))
+	bool isOutside1 = false;
+	bool isOutside2 = false;
+	
+	// it is necessary to do that because of cases when polygons share sides
+	for (Vertex v : p2Vertices)
 	{
-
+		if (!p1.getBase().isInside(v))
+		{
+			isOutside1 = true;
+			break;
+		}
 	}
-	else if (p2.getBase().isInside(p1Vertices[0]))
+	for (Vertex v : p1Vertices)
 	{
-
+		if (!p2.getBase().isInside(v))
+		{
+			isOutside2 = true;
+			break;
+		}
 	}
-	return true;
+
+	if (!isOutside1)
+	{
+		Prism p3 = p2;
+		p3.addHeightRanges(p1.getHeightRanges());
+		results.push_back(p3);
+		results.push_back(p1);
+		return true;
+	}
+	else if (!isOutside2)
+	{
+		Prism p3 = p1;
+		p3.addHeightRanges(p2.getHeightRanges());
+		results.push_back(p3);
+		results.push_back(p2);
+		return true;
+	}
+	return false;
 }
 
 void WeilerAthertonAlgorithm::p1AllPointsPrint() const
@@ -287,31 +451,9 @@ void WeilerAthertonAlgorithm::p2AllPointsPrint() const
 	cout << endl;
 }
 
-vector<Prism> WeilerAthertonAlgorithm::getFirstParts() 
-{
-	return firstParts;
-}
-
-vector<Prism> WeilerAthertonAlgorithm::getSecondParts() 
-{
-	return secondParts;
-}
-
-vector<Prism> WeilerAthertonAlgorithm::getIntersectionParts() 
-{
-	return intersectionParts;
-}
-
 vector<Prism> WeilerAthertonAlgorithm::returnResult() 
 {
-	vector<Prism> result;
-	for (Prism p : firstParts)
-		result.push_back(p);
-	for (Prism p : intersectionParts)
-		result.push_back(p);
-	for (Prism p : secondParts)
-		result.push_back(p);
-	return result;
+	return results;
 }
 
 

@@ -12,6 +12,7 @@ class Prism
         map<int, pair<double,double>> heightRanges;
     public:
 		Prism();
+		Prism(int, Polygon);
         Prism(int, Polygon, pair<double,double>);
         Prism(const Prism&);
         ~Prism();

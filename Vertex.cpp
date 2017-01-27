@@ -23,13 +23,13 @@ Vertex& Vertex::operator=(const Vertex& otherVertex)
 
 bool Vertex::operator==(const Vertex& otherVertex) const
 {
-	return approxEqual((float)x, (float)otherVertex.x) && approxEqual((float)y, (float)otherVertex.y);
+	return approxEqual(x, otherVertex.x) && approxEqual(y, otherVertex.y);
 }
 
 // parameters are float type because of max function
-bool Vertex::approxEqual(float a, float b)
+bool Vertex::approxEqual(double a, double b)
 {
-	return fabs(a - b) <= max(1.0f, max(fabs(a), fabs(b))) * EPSILON;
+	return fabs(a - b) <= fmax(1.0f, fmax(fabs(a), fabs(b))) * EPSILON;
 }
 
 void Vertex::setX(double x)
@@ -45,6 +45,11 @@ void Vertex::setY(double y)
 void Vertex::setIntersectionPoint(bool isIntersectionPoint)
 {
 	this->isIntersectionPoint = isIntersectionPoint;
+}
+
+void Vertex::setVisited(bool visited)
+{
+	this->visited = visited;
 }
 
 double Vertex::getX() const

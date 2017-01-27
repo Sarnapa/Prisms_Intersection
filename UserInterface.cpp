@@ -153,7 +153,7 @@ void UserInterface::drawInputPrisms() const
 
 void UserInterface::drawWAPrisms() const
 {
-	DrawingPrisms prismsWindow(weilerAthertonResult, prismsNumber);
+	DrawingPrisms prismsWindow(weilerAthertonResult, weilerAthertonResult.size());
 	prismsWindow.drawPrisms("Prisms_Intersection - Weiler - Atherton Algo result");
 }
 
@@ -182,7 +182,17 @@ void UserInterface::doWeilerAthertonAlgo()
 			wa.p2AllPointsPrint();
 			for (Prism p : wa.returnResult())
 			{
-				weilerAthertonResult.push_back(p);
+				bool isBase = false;
+				for (int k = 0; k < weilerAthertonResult.size(); ++k)
+				{
+					if (p.getBase() == weilerAthertonResult[k].getBase())
+					{
+						isBase = true;
+						weilerAthertonResult[k].addHeightRanges(p.getHeightRanges());
+					}
+				}
+				if (!isBase)
+					weilerAthertonResult.push_back(p);
 			}
 		}
 	}

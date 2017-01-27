@@ -18,7 +18,7 @@ class Vertex
 		bool visited = false;
 		bool isIntersectionPoint = false;
 
-		static bool approxEqual(float, float);
+		static bool approxEqual(double, double);
     public:
 		Vertex();
         Vertex(double, double);
@@ -32,6 +32,7 @@ class Vertex
         void setX(double);
         void setY(double);
 		void setIntersectionPoint(bool);
+		void setVisited(bool);
         double getX() const;
         double getY() const;
 		bool getVisited() const;

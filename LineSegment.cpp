@@ -129,7 +129,6 @@ pair<bool, Vertex> LineSegment::getIntersectionPoint(const LineSegment& line) co
 	double y4 = line.v2.getY();
 
 	double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-	//cout << (x1 - x2) << " " << (y3 - y4) << " " << (y1 - y2) << " " << (x3 - x4) << endl;
 	if (d == 0)
 	{
 		return pair<bool, Vertex>(false, Vertex());
@@ -145,27 +144,22 @@ pair<bool, Vertex> LineSegment::getIntersectionPoint(const LineSegment& line) co
 
 	if (intersectionX + EPSILON < min(x1, x2) || intersectionX > max(x1, x2) + EPSILON) 
 	{
-		//cout << "1a" << endl;
 		return pair<bool, Vertex>(false, Vertex());
 	}
 	else if (intersectionX + EPSILON < min(x3, x4) || intersectionX > max(x3, x4) + EPSILON)
 	{
-		//cout << "1b" << endl;
 		return pair<bool, Vertex>(false, Vertex());
 	}
 	else if (intersectionY + EPSILON < min(y1, y2) || intersectionY > max(y1, y2) + EPSILON)
 	{
-		//cout << "1c" << endl;
 		return pair<bool, Vertex>(false, Vertex());
 	}
 	else if (intersectionY + EPSILON < min(y3, y4) || intersectionY > max(y3, y4) + EPSILON)
 	{
-		//cout << "1d" << endl;
 		return pair<bool, Vertex>(false, Vertex());
 	}
 	else 
 	{
-		//cout << "1e" << endl;
 		return pair<bool, Vertex>(true, Vertex(intersectionX, intersectionY, true));
 	}
 }

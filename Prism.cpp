@@ -3,6 +3,12 @@
 Prism::Prism()
 {}
 
+Prism::Prism(int id, Polygon base)
+{
+	this->id = id;
+	this->base = base;
+}
+
 Prism::Prism(int _id, Polygon _base, pair<double,double> heightRange): id(_id), base(_base)
 {
 	heightRanges.insert(make_pair(id, heightRange));
