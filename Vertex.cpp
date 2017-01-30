@@ -32,10 +32,12 @@ bool Vertex::operator==(const Vertex& otherVertex) const
 	return approxEqual(x, otherVertex.x) && approxEqual(y, otherVertex.y);
 }
 
-// parameters are float type because of max function
 bool Vertex::approxEqual(double a, double b)
 {
-	return fabs(a - b) <= fmax(1.0f, fmax(fabs(a), fabs(b))) * EPSILON;
+	//return a == b;
+	//return fabs(a - b) <= fmax(1.0, fmax(fabs(a), fabs(b))) * EPSILON;
+	return fabs(a - b) <= EPSILON;
+
 }
 
 void Vertex::setX(double x)
@@ -87,13 +89,14 @@ double Vertex::getDistance(const Vertex &v) const
 
 void Vertex::printVertex() const
 {
-	cout << "(" << x << ", " << y << ")" << endl;
+	//cout << "(" << x << ", " << y << ", " << isIntersectionPoint << ", " << visited << ")" << endl;
+	cout << "(" << x << ", " << y << ")";
 }
 
 string Vertex::toString() const
 {
 	stringstream vertexString;
-	vertexString << "(" << x << ", " << y << " )";
+	//vertexString << "(" << x << ", " << y << ", " << isIntersectionPoint << ", " << visited << ")";
+	vertexString << "(" << x << ", " << y << ")";
 	return vertexString.str();
 }
-

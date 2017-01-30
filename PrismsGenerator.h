@@ -25,13 +25,14 @@ class PrismsGenerator
 		bool onlyConvex;
 		double minRadius; // min value circle radius to build polygon
 		double maxRadius;
-		const double areaRange = 100.0; // to locate circle center and limit x,y coordinates
+		const double areaRange = 30.0; // to locate circle center and limit x,y coordinates
 
 		Prism generateConvexBase() const;
 		Prism generateBase() const;
 		pair<double, double> generateHeightRange() const;
 		int generateVerticesNumber() const;
-		static double fRand(double fMin, double fMax); // rand for double
+		static double fRand(double, double); // rand for double
+		static double doubleRound(double);
 		static void incId();
     public:
         PrismsGenerator(int, int, bool);

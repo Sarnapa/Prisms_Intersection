@@ -105,6 +105,7 @@
     <ClInclude Include="Prism.h" />
     <ClInclude Include="PrismsGenerator.h" />
     <ClInclude Include="shprogram.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="WeilerAthertonAlgorithm.h" />

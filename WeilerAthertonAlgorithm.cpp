@@ -43,8 +43,8 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					{
 						// to avoid situation when we have two line segment on one side
 						if (LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Prev])
-							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next1])
-							&& LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Prev]) != 0)
+							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next1]))
+							//&& LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Prev]) != 0
 						{
 							if (!(intersectionPoint.second == secondLine.getV1()) &&
 								!(intersectionPoint.second == secondLine.getV2()))
@@ -56,11 +56,15 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							{
 								if (intersectionPoint.second == secondLine.getV1() && !p1.getBase().isInside(secondLine.getV2()))
 								{
+									double x1 = p2Vertices[p2Prev].getX();
+									double y1 = p2Vertices[p2Prev].getY();
+									double x2 = p2Vertices[p2Next1].getX();
+									double y2 = p2Vertices[p2Next1].getY();
 									// cases when only intersection part is one vertex
-									if (!((p2Vertices[p2Prev].getX() > p1.getBase().getXMax() && p2Vertices[p2Next1].getX() > p1.getBase().getXMax())
-										|| (p2Vertices[p2Prev].getX() < p1.getBase().getXMin() && p2Vertices[p2Next1].getX() < p1.getBase().getXMin())
-										|| (p2Vertices[p2Prev].getY() > p1.getBase().getYMax() && p2Vertices[p2Next1].getY() > p1.getBase().getYMax())
-										|| (p2Vertices[p2Prev].getY() < p1.getBase().getYMin() && p2Vertices[p2Next1].getY() < p1.getBase().getYMin())))
+									if (!((x1 - EPSILON > p1.getBase().getXMax() && x2 - EPSILON > p1.getBase().getXMax())
+										|| (x1 + EPSILON < p1.getBase().getXMin() && x2 + EPSILON < p1.getBase().getXMin())
+										|| (y1 - EPSILON > p1.getBase().getYMax() && y2 - EPSILON > p1.getBase().getYMax())
+										|| (y1 + EPSILON < p1.getBase().getYMin() && y2 + EPSILON < p1.getBase().getYMin())))
 									{
 										p1Vertices[i].setIntersectionPoint(true);
 										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
@@ -68,10 +72,14 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 								}
 								else if (intersectionPoint.second == secondLine.getV2() && !p1.getBase().isInside(p2Vertices[p2Next2]))
 								{
-									if (!((p2Vertices[j].getX() > p1.getBase().getXMax() && p2Vertices[p2Next2].getX() > p1.getBase().getXMax())
-										|| (p2Vertices[j].getX() < p1.getBase().getXMin() && p2Vertices[p2Next2].getX() < p1.getBase().getXMin())
-										|| (p2Vertices[j].getY() > p1.getBase().getYMax() && p2Vertices[p2Next2].getY() > p1.getBase().getYMax())
-										|| (p2Vertices[j].getY() < p1.getBase().getYMin() && p2Vertices[p2Next2].getY() < p1.getBase().getYMin())))
+									double x1 = p2Vertices[j].getX();
+									double y1 = p2Vertices[j].getY();
+									double x2 = p2Vertices[p2Next2].getX();
+									double y2 = p2Vertices[p2Next2].getY();
+									if (!((x1 - EPSILON > p1.getBase().getXMax() && x2 - EPSILON > p1.getBase().getXMax())
+										|| (x1 + EPSILON < p1.getBase().getXMin() && x2 + EPSILON < p1.getBase().getXMin())
+										|| (y1 - EPSILON > p1.getBase().getYMax() && y2 - EPSILON > p1.getBase().getYMax())
+										|| (y1 + EPSILON < p1.getBase().getYMin() && y2 + EPSILON < p1.getBase().getYMin())))
 									{
 										p1Vertices[i].setIntersectionPoint(true);
 										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
@@ -83,8 +91,8 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					else if (intersectionPoint.second == firstLine.getV2())
 					{
 						if (LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[i])
-							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2])
-							&& LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2]) != 0)
+							!= LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2]))
+							//&& LineSegment::getOrientation(secondLine.getV1(), secondLine.getV2(), p1Vertices[p1Next2]) != 0)
 						{
 							if (!(intersectionPoint.second == secondLine.getV1()) &&
 								!(intersectionPoint.second == secondLine.getV2()))
@@ -96,10 +104,14 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							{
 								if (intersectionPoint.second == secondLine.getV1() && !p1.getBase().isInside(secondLine.getV2()))
 								{
-									if (!((p2Vertices[p2Prev].getX() > p1.getBase().getXMax() && p2Vertices[p2Next1].getX() > p1.getBase().getXMax())
-										|| (p2Vertices[p2Prev].getX() < p1.getBase().getXMin() && p2Vertices[p2Next1].getX() < p1.getBase().getXMin())
-										|| (p2Vertices[p2Prev].getY() > p1.getBase().getYMax() && p2Vertices[p2Next1].getY() > p1.getBase().getYMax())
-										|| (p2Vertices[p2Prev].getY() < p1.getBase().getYMin() && p2Vertices[p2Next1].getY() < p1.getBase().getYMin())))
+									double x1 = p2Vertices[p2Prev].getX();
+									double y1 = p2Vertices[p2Prev].getY();
+									double x2 = p2Vertices[p2Next1].getX();
+									double y2 = p2Vertices[p2Next1].getY();
+									if (!((x1 - EPSILON > p1.getBase().getXMax() && x2 - EPSILON > p1.getBase().getXMax())
+										|| (x1 + EPSILON < p1.getBase().getXMin() && x2 + EPSILON < p1.getBase().getXMin())
+										|| (y1 - EPSILON > p1.getBase().getYMax() && y2 - EPSILON > p1.getBase().getYMax())
+										|| (y1 + EPSILON < p1.getBase().getYMin() && y2 + EPSILON < p1.getBase().getYMin())))
 									{
 										p1Vertices[p1Next1].setIntersectionPoint(true);
 										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
@@ -107,10 +119,14 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 								}
 								else if (intersectionPoint.second == secondLine.getV2() && !p1.getBase().isInside(p2Vertices[p2Next2]))
 								{
-									if (!((p2Vertices[j].getX() > p1.getBase().getXMax() && p2Vertices[p2Next2].getX() > p1.getBase().getXMax())
-										|| (p2Vertices[j].getX() < p1.getBase().getXMin() && p2Vertices[p2Next2].getX() < p1.getBase().getXMin())
-										|| (p2Vertices[j].getY() > p1.getBase().getYMax() && p2Vertices[p2Next2].getY() > p1.getBase().getYMax())
-										|| (p2Vertices[j].getY() < p1.getBase().getYMin() && p2Vertices[p2Next2].getY() < p1.getBase().getYMin())))
+									double x1 = p2Vertices[j].getX();
+									double y1 = p2Vertices[j].getY();
+									double x2 = p2Vertices[p2Next2].getX();
+									double y2 = p2Vertices[p2Next2].getY();
+									if (!((x1 - EPSILON > p1.getBase().getXMax() && x2 - EPSILON > p1.getBase().getXMax())
+										|| (x1 + EPSILON < p1.getBase().getXMin() && x2 + EPSILON < p1.getBase().getXMin())
+										|| (y1 - EPSILON > p1.getBase().getYMax() && y2 - EPSILON > p1.getBase().getYMax())
+										|| (y1 + EPSILON < p1.getBase().getYMin() && y2 + EPSILON < p1.getBase().getYMin())))
 									{
 										p1Vertices[p1Next1].setIntersectionPoint(true);
 										p2IntersectionPoints.insert(pair<int, Vertex>(j, intersectionPoint.second));
@@ -122,8 +138,8 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					else if (intersectionPoint.second == secondLine.getV1())
 					{
 						if (LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Prev])
-							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next1])
-							&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Prev]) != 0)
+							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next1]))
+							//&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Prev]) != 0)
 						{
 							if (!(intersectionPoint.second == firstLine.getV1()) &&
 								!(intersectionPoint.second == firstLine.getV2()))
@@ -136,8 +152,8 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 					else if (intersectionPoint.second == secondLine.getV2())
 					{
 						if (LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[j])
-							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2])
-							&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2]) != 0)
+							!= LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2]))
+							//&& LineSegment::getOrientation(firstLine.getV1(), firstLine.getV2(), p2Vertices[p2Next2]) != 0)
 						{
 							if (!(intersectionPoint.second == firstLine.getV1()) &&
 								!(intersectionPoint.second == firstLine.getV2()))
@@ -147,6 +163,7 @@ void WeilerAthertonAlgorithm::generateAllPoints()
 							}
 						}
 					}
+
 					else
 					{
 						p1IntersectionPoints.insert(pair<int, Vertex>(i, intersectionPoint.second));
@@ -187,7 +204,15 @@ void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex
 							p1AllPoints[0].setIntersectionPoint(true);
 					}
 					else
-						tempVertexVector.push_back(v);
+					{
+						if (tempVertexVector.size() != 0)
+						{
+							if (!(v == tempVertexVector.back()) && !(v == tempVertexVector.front()))
+								tempVertexVector.push_back(v);
+						}
+						else
+							tempVertexVector.push_back(v);
+					}
 				}
 			}
 			sort(tempVertexVector.begin(), tempVertexVector.end(), DistanceFunc(p1Vertices[i]));
@@ -218,32 +243,69 @@ void WeilerAthertonAlgorithm::sortPoints(int polygonNumber, multimap<int, Vertex
 							p2AllPoints[0].setIntersectionPoint(true);
 					}
 					else
-						tempVertexVector.push_back(v);
+					{
+						if (tempVertexVector.size() != 0)
+						{
+							if (!(v == tempVertexVector.back()) && !(v == tempVertexVector.front()))
+								tempVertexVector.push_back(v);
+						}
+						else
+							tempVertexVector.push_back(v);
+					}
 				}
 			}
 			sort(tempVertexVector.begin(), tempVertexVector.end(), DistanceFunc(p2Vertices[i]));
 			for (Vertex v : tempVertexVector)
+			{
 				p2AllPoints.push_back(v);
+			}
 			tempVertexVector.clear();
 		}
 	}
 }
 
-int WeilerAthertonAlgorithm::getStartPoint()
+pair<int, int> WeilerAthertonAlgorithm::getStartPoint()
 {
-	int posVertex = 0;
+	int posVertex;
 	for (int i = 0; i < p1AllPoints.size(); ++i)
 	{
 		int iNext = (i + 1) % p1AllPoints.size();
-		// second point can be next intersection Point or point that is inside of second polygon
-		if (p1AllPoints[i].getIsIntersectionPoint() && !p1AllPoints[i].getVisited() && (p1AllPoints[iNext].getIsIntersectionPoint() ||
-			p2.getBase().isInside(p1AllPoints[iNext])))
+		// second point can be next intersection Point or point that is inside of second polygon (but intersection point have greater priority)
+		if (p1AllPoints[i].getIsIntersectionPoint() && !p1AllPoints[i].getVisited() && p1AllPoints[iNext].getIsIntersectionPoint())
 		{
 			posVertex = i;
-			break;
+			return make_pair(0, posVertex);
 		}
 	}
-	return posVertex;
+	for (int i = 0; i < p2AllPoints.size(); ++i)
+	{
+		int iNext = (i + 1) % p2AllPoints.size();
+		if (p2AllPoints[i].getIsIntersectionPoint() && !p2AllPoints[i].getVisited() && p2AllPoints[iNext].getIsIntersectionPoint())
+		{
+			posVertex = i;
+			return make_pair(1, posVertex);
+		}
+	}
+	for (int i = 0; i < p1AllPoints.size(); ++i)
+	{
+		int iNext = (i + 1) % p1AllPoints.size();
+		if (p1AllPoints[i].getIsIntersectionPoint() && !p1AllPoints[i].getVisited() && p2.getBase().isInside(p1AllPoints[iNext]))
+		{
+			posVertex = i;
+			return make_pair(0, posVertex);
+		}
+	}
+	for (int i = 0; i < p2AllPoints.size(); ++i)
+	{
+		int iNext = (i + 1) % p2AllPoints.size();
+		if (p2AllPoints[i].getIsIntersectionPoint() && !p2AllPoints[i].getVisited() && p1.getBase().isInside(p2AllPoints[iNext]))
+		{
+			posVertex = i;
+			return make_pair(1, posVertex);
+		}
+	}
+	posVertex = -1; // fault
+	return make_pair(0, posVertex);
 }
 
 int WeilerAthertonAlgorithm::getNext(int polygonNumber, Vertex v)
@@ -311,92 +373,214 @@ int WeilerAthertonAlgorithm::countIntersectionPointsNumber()
 
 void WeilerAthertonAlgorithm::doAlgo()
 {
+	if (!(p1.getBase().checkMinMax(p2.getBase())))
+	{
+		inputParts.push_back(p1);
+		inputParts.push_back(p2);
+		return;
+	}
+
 	if (checkIfTheSame())
+		return;
+
+	if (checkIfInside())
 		return;
 
 	generateAllPoints();
 
-	if (p1AllPoints.size() == p1Vertices.size() && p2AllPoints.size() == p2Vertices.size())
-	{
-		if (!checkIfInside())
-		{
-			inputParts.push_back(p1);
-			inputParts.push_back(p2);
-		}
-		return;
-	}
+	/*cout << "=========" << endl;
+	p1.printPrism();
+	cout << endl;
+	p1AllPointsPrint();
+	cout << endl;
+	p2.printPrism();
+	cout << endl;
+	p2AllPointsPrint();
+	cout << "=========" << endl;*/
 
+	inputParts.push_back(p1);
+	inputParts.push_back(p2);
 	int intersectionPointsNumber = countIntersectionPointsNumber();
 	if (intersectionPointsNumber > 1)
 	{
-		inputParts.push_back(p1);
-		inputParts.push_back(p2);
+		int prevIndex, currentIndex, startIndex;
+		Vertex prevPoint, startPoint, currentPoint;
 		bool allIntersectionPointsVisited = false;
-		int polygonFlag = 0; // p1
+		bool first = true;
+		pair<int, int> point = getStartPoint();
+		int polygonFlag = point.first;
 		int intersectionCurrentNumber = 1; // because of startPoint
-		int startIndex = getStartPoint();
-		int currentIndex = startIndex;
-		p1AllPoints[startIndex].setVisited(true);
-		Vertex startPoint = p1AllPoints[startIndex];
-		Vertex currentPoint = startPoint;
-		vector<Vertex> tmpPoints;
-		tmpPoints.push_back(startPoint);
-		while (!allIntersectionPointsVisited)
+		startIndex = point.second;
+		if (startIndex == -1)
 		{
+			cout << "Warning for detection of intersection for prisms: " << endl;
+			//p1.printPrism();
+			//p2.printPrism();
+			p1AllPointsPrint();
+			cout << endl;
+			p2AllPointsPrint();
+		}
+		else
+		{
+			currentIndex = startIndex;
 			if (polygonFlag == 0)
 			{
-				currentIndex = getNext(0, currentPoint);
-				p1AllPoints[currentIndex].setVisited(true);
-				currentPoint = p1AllPoints[currentIndex];
-				if (!(currentPoint == startPoint))
-				{
-					tmpPoints.push_back(currentPoint);
-
-					if (currentPoint.getIsIntersectionPoint())
-					{
-						++intersectionCurrentNumber;
-						currentIndex = getFromOtherPolygon(0, currentPoint);
-						p2AllPoints[currentIndex].setVisited(true);
-						currentPoint = p2AllPoints[currentIndex];
-						polygonFlag = 1;
-					}
-				}
+				p1AllPoints[startIndex].setVisited(true);
+				startPoint = p1AllPoints[startIndex];
 			}
 			else
 			{
-				currentIndex = getNext(1, currentPoint);
-				p2AllPoints[currentIndex].setVisited(true);
-				currentPoint = p2AllPoints[currentIndex];
-				if (!(currentPoint == startPoint))
+				p2AllPoints[startIndex].setVisited(true);
+				startPoint = p2AllPoints[startIndex];
+			}
+			currentPoint = startPoint;
+			prevPoint = currentPoint;
+			vector<Vertex> tmpPoints;
+			tmpPoints.push_back(startPoint);
+			while (!allIntersectionPointsVisited)
+			{
+				if (polygonFlag == 0)
 				{
-					tmpPoints.push_back(currentPoint);
-
-					if (currentPoint.getIsIntersectionPoint())
+					currentIndex = getNext(0, currentPoint);
+					p1AllPoints[currentIndex].setVisited(true);
+					currentPoint = p1AllPoints[currentIndex];
+					if (!(currentPoint == startPoint))
 					{
-						++intersectionCurrentNumber;
-						currentIndex = getFromOtherPolygon(1, currentPoint);
-						p1AllPoints[currentIndex].setVisited(true);
-						currentPoint = p1AllPoints[currentIndex];
-						polygonFlag = 0;
+						tmpPoints.push_back(currentPoint);
+						if (currentPoint.getIsIntersectionPoint())
+						{
+							++intersectionCurrentNumber;
+							// if colinear
+							if (LineSegment::getOrientation(prevPoint, currentPoint, p1AllPoints[getNext(0, currentPoint)]) == 0
+								&& !first)
+							{
+								polygonFlag = 1;
+								currentIndex = getFromOtherPolygon(0, currentPoint);
+								p2AllPoints[currentIndex].setVisited(true);
+								currentPoint = p2AllPoints[currentIndex];
+								if (currentIndex == 0)
+									prevIndex = p2AllPoints.size() - 1;
+								else
+									prevIndex = currentIndex - 1;
+								prevPoint = p2AllPoints[prevIndex];
+							}
+							else
+							{
+								first = false; // just in case
+								polygonFlag = 1;
+								currentIndex = getFromOtherPolygon(0, currentPoint);
+								p2AllPoints[currentIndex].setVisited(true);
+								currentPoint = p2AllPoints[currentIndex];
+								if (currentIndex == 0)
+									prevIndex = p2AllPoints.size() - 1;
+								else
+									prevIndex = currentIndex - 1;
+								prevPoint = p2AllPoints[prevIndex];
+							}
+						}
+						else
+						{
+							prevPoint = currentPoint;
+						}
 					}
 				}
-			}
-			if (currentPoint == startPoint)
-			{
-				Prism p3 = Prism(p1.getId() + p2.getId(), Polygon(tmpPoints));
-				p3.addHeightRanges(p1.getHeightRanges());
-				p3.addHeightRanges(p2.getHeightRanges());
-				intersectionParts.push_back(p3);
-				if (intersectionCurrentNumber == intersectionPointsNumber)
-					allIntersectionPointsVisited = true;
 				else
 				{
-					startIndex = getStartPoint();
-					p1AllPoints[startIndex].setVisited(true);
-					startPoint = p1AllPoints[startIndex];
-					currentPoint = startPoint;
-					tmpPoints.clear();
-					tmpPoints.push_back(startPoint);
+					currentIndex = getNext(1, currentPoint);
+					p2AllPoints[currentIndex].setVisited(true);
+					currentPoint = p2AllPoints[currentIndex];
+					if (!(currentPoint == startPoint))
+					{
+						tmpPoints.push_back(currentPoint);
+
+						if (currentPoint.getIsIntersectionPoint())
+						{
+							++intersectionCurrentNumber;
+							// if colinear
+							if (LineSegment::getOrientation(prevPoint, currentPoint, p2AllPoints[getNext(1, currentPoint)]) == 0
+								&& !first)
+							{
+								polygonFlag = 0;
+								currentIndex = getFromOtherPolygon(1, currentPoint);
+								p1AllPoints[currentIndex].setVisited(true);
+								currentPoint = p1AllPoints[currentIndex];
+								if (currentIndex == 0)
+									prevIndex = p1AllPoints.size() - 1;
+								else
+									prevIndex = currentIndex - 1;
+								prevPoint = p1AllPoints[prevIndex];
+							}
+							else
+							{
+								first = false;
+								polygonFlag = 0;
+								currentIndex = getFromOtherPolygon(1, currentPoint);
+								p1AllPoints[currentIndex].setVisited(true);
+								currentPoint = p1AllPoints[currentIndex];
+								if (currentIndex == 0)
+									prevIndex = p1AllPoints.size() - 1;
+								else
+									prevIndex = currentIndex - 1;
+								prevPoint = p1AllPoints[prevIndex];
+							}
+						}
+						else
+						{
+							prevPoint = currentPoint;
+						}
+					}
+				}
+				if (currentPoint == startPoint)
+				{
+					Prism p3;
+					if (tmpPoints.size() > 2)
+					{
+						p3 = Prism(Polygon(tmpPoints));
+						p3.addHeightRanges(p1.getHeightRanges());
+						p3.addHeightRanges(p2.getHeightRanges());
+						intersectionParts.push_back(p3);
+					}
+					if (intersectionCurrentNumber == intersectionPointsNumber)
+						allIntersectionPointsVisited = true;
+					else
+					{
+						first = true;
+						pair<int, int> point = getStartPoint();
+						polygonFlag = point.first;
+						startIndex = point.second;
+						currentIndex = startIndex;
+						if (startIndex == -1)
+						{
+							cout << "Warning for detection of intersection for prisms: " << endl;
+							p1.printPrism();
+							cout << endl;
+							p1AllPointsPrint();
+							cout << endl;
+							p2.printPrism();
+							cout << endl;
+							p2AllPointsPrint();
+							cout << endl;
+							cout << "Please check prism: " << endl;
+							p3.printPrism();
+							intersectionParts.pop_back();
+							break;
+						}
+						if (polygonFlag == 0)
+						{
+							p1AllPoints[startIndex].setVisited(true);
+							startPoint = p1AllPoints[startIndex];
+						}
+						else
+						{
+							p2AllPoints[startIndex].setVisited(true);
+							startPoint = p2AllPoints[startIndex];
+						}
+						currentPoint = startPoint;
+						prevPoint = currentPoint;
+						++intersectionCurrentNumber;
+						tmpPoints.clear();
+						tmpPoints.push_back(startPoint);
+					}
 				}
 			}
 		}
@@ -418,7 +602,7 @@ bool WeilerAthertonAlgorithm::checkIfInside()
 {
 	bool isOutside1 = false;
 	bool isOutside2 = false;
-	
+
 	// it is necessary to do that because of cases when polygons share sides
 	for (Vertex v : p2Vertices)
 	{
@@ -428,15 +612,17 @@ bool WeilerAthertonAlgorithm::checkIfInside()
 			break;
 		}
 	}
-	for (Vertex v : p1Vertices)
+	if (isOutside1)
 	{
-		if (!p2.getBase().isInside(v))
+		for (Vertex v : p1Vertices)
 		{
-			isOutside2 = true;
-			break;
+			if (!p2.getBase().isInside(v))
+			{
+				isOutside2 = true;
+				break;
+			}
 		}
 	}
-
 
 	if (!isOutside1)
 	{

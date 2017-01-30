@@ -6,7 +6,6 @@
 
 #include "Polygon.h"
 
-
 Polygon::Polygon()
 {
 
@@ -16,19 +15,26 @@ Polygon::Polygon(vector<Vertex> verticesList)
 {
 	for (unsigned int i = 0; i < verticesList.size(); ++i)
 	{
-			addVertex(verticesList[i]);
+		addVertex(verticesList[i]);
 	}
 }
 
 Polygon::Polygon(const Polygon& otherPolygon)
 {
+	xMax = otherPolygon.xMax;
+	yMax = otherPolygon.yMax;
+	xMin = otherPolygon.xMin;
+	yMin = otherPolygon.yMin;
     for(unsigned int i = 0; i < otherPolygon.verticesList.size(); ++i)
         addVertex(otherPolygon.verticesList[i]);
-
 }
 
 Polygon& Polygon::operator=(const Polygon& otherPolygon)
 {
+	xMax = otherPolygon.xMax;
+	yMax = otherPolygon.yMax;
+	xMin = otherPolygon.xMin;
+	yMin = otherPolygon.yMin;
     for(unsigned int i = 0; i < otherPolygon.verticesList.size(); ++i)
         addVertex(otherPolygon.verticesList[i]);
     return *this;
@@ -41,12 +47,12 @@ bool Polygon::operator==(const Polygon& otherPolygon) const
         return false;
     for(unsigned int i = 0; i < verticesList.size(); ++i)
     {
-        isEqual = false;
+		isEqual = false;
         for(unsigned int j = 0; j < verticesList.size(); ++j)
             if(verticesList[i] == otherPolygon.verticesList[j])
             {
                 isEqual = true;
-                j = verticesList.size();
+				break;
             }
         if(!isEqual)
             return false;
@@ -68,6 +74,19 @@ void Polygon::updateMinMax(const Vertex& v)
 		yMin = vY;
 	else if (vY > yMax)
 		yMax = vY;
+}
+
+bool Polygon::checkMinMax(const Polygon& p) const
+{
+	if (xMax <= p.xMin)
+		return false;
+	if (p.xMax <= xMin)
+		return false;
+	if (yMax <= p.yMin)
+		return false;
+	if (p.yMax <= yMin)
+		return false;
+	return true;
 }
 
 double Polygon::getXMin()
@@ -109,16 +128,17 @@ bool Polygon::isInside(const Vertex& p)
 		Vertex outPoint(xMax + 3, yMax + 7);
 		LineSegment halfLine(p, outPoint);
 
-		//cout << p.getX() << " " << p.getY() << endl;
 		int intersectionCount = 0;
 		int next;
-		for (int i = 0; i < verticesList.size(); ++i)
+		for (unsigned int i = 0; i < verticesList.size(); ++i)
 		{
 			next = (i + 1) % verticesList.size();
 			LineSegment line(verticesList[i], verticesList[next]);
 			
-			if (line.isOnSegment(p))
+			if (line.isOnLine(p))
+			{
 				return true;
+			}
 
 			if (line.doIntersect(halfLine))
 			{
@@ -126,7 +146,6 @@ bool Polygon::isInside(const Vertex& p)
 
 				if (intersectionPoint.first)
 					++intersectionCount;
-				// if vertex
 				if (intersectionPoint.second == line.getV1() || intersectionPoint.second == line.getV2())
 					++i;
 			}
@@ -138,10 +157,10 @@ bool Polygon::isInside(const Vertex& p)
 
 void Polygon::clearVertices()
 {
-	for (int i = 0; i < verticesList.size(); ++i)
+	for (unsigned int i = 0; i < verticesList.size(); ++i)
 	{
 		verticesList[i].setIntersectionPoint(false);
-		verticesList[i].setIntersectionPoint(false);
+		verticesList[i].setVisited(false);
 	}
 }
 
@@ -160,7 +179,7 @@ void Polygon::printPolygon() const
 string Polygon::toString() const
 {
 	stringstream polygonString;
-	for (int i = 0; i < verticesList.size(); i++)
+	for (unsigned int i = 0; i < verticesList.size(); i++)
 		polygonString << verticesList[i].toString() << " ";
 	return polygonString.str();
 }

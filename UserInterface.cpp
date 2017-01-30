@@ -6,6 +6,7 @@
 
 #include "UserInterface.h"
 #include "LineSegment.h"
+#include "Timer.h"
 
 using namespace std;
 
@@ -90,11 +91,15 @@ Prism UserInterface::generatePrism(string prismLine)
     stringstream ss(prismLine);
     ss >> id;
     ss >> minZ;
+	minZ = doubleRound(minZ);
     ss >> maxZ;
+	maxZ = doubleRound(maxZ);
     while (!ss.eof())
     {
         ss >> x;
+		x = doubleRound(x);
         ss >> y;
+		y = doubleRound(y);
         vertices.push_back(Vertex(x,y));
     }
     Polygon base(vertices);
@@ -176,6 +181,12 @@ void UserInterface::printWAPrismsList() const
 		weilerAthertonResult[i].printPrism();
 }
 
+void UserInterface::printWATime() const
+{
+	cout << "Execution time of Weiler - Atherton Algorithm: " << endl;
+	cout << WATime << endl;
+}
+
 void UserInterface::addPrismFromWeilerAtherthonAlgo(const Prism& p)
 {
 	bool isBase = false;
@@ -205,14 +216,17 @@ void UserInterface::addPrismFromWeilerAtherthonAlgo(const Prism& p)
 void UserInterface::doWeilerAthertonAlgo()
 {
 	vector<Prism> intersectionParts;
+	Timer t;
 	for (int i = 0; i < prismsList.size() - 1; ++i) 
 	{
 		for (int j = i + 1; j < prismsList.size(); ++j)
 		{
 			WeilerAthertonAlgorithm wa(prismsList[i], prismsList[j]);
-			wa.doAlgo();
+   			wa.doAlgo();
 			for (Prism p : wa.returnInputParts())
+			{
 				addPrismFromWeilerAtherthonAlgo(p);
+			}
 			for (Prism p : wa.returnIntersectionParts())
 			{
 				bool isBase = false;
@@ -230,8 +244,8 @@ void UserInterface::doWeilerAthertonAlgo()
 					}
 					else
 					{
-						isBase = true;
 						intersectionParts.push_back(p);
+						isBase = true;
 						break;
 					}
 				}
@@ -248,7 +262,8 @@ void UserInterface::doWeilerAthertonAlgo()
 	for (Prism p : intersectionParts)
 		inputParts.push_back(p);
 	intersectionParts.clear();
-	while (inputParts.size() > 1)
+	//int m = 1;
+	if(inputParts.size() > 1) //&& m < prismsNumber - 1)
 	{
 		for (int i = 0; i < inputParts.size() - 1; ++i)
 		{
@@ -262,7 +277,7 @@ void UserInterface::doWeilerAthertonAlgo()
 				Prism p2(inputParts[j].getId(), polygon2, inputParts[j].getHeightRanges());
 				WeilerAthertonAlgorithm wa(p1, p2);
 				wa.doAlgo();
-				for (Prism p : inputParts)
+				for (Prism p : wa.returnInputParts())
 					addPrismFromWeilerAtherthonAlgo(p);
 				for (Prism p : wa.returnIntersectionParts())
 				{
@@ -275,31 +290,32 @@ void UserInterface::doWeilerAthertonAlgo()
 							{
 								isBase = true;
 								weilerAthertonResult[k].addHeightRanges(p.getHeightRanges());
-								intersectionParts.push_back(p);
 								break;
 							}
 						}
 						else
 						{
 							isBase = true;
-							intersectionParts.push_back(p);
 							break;
 						}
 					}
 					if (!isBase)
 					{
-						intersectionParts.push_back(p);
+						//intersectionParts.push_back(p);
+						addPrismFromWeilerAtherthonAlgo(p);
 					}
 				}
 			}
 		}
 		inputParts.clear();
-		for (Prism p : intersectionParts)
-			inputParts.push_back(p);
-		intersectionParts.clear();
+		//for (Prism p : intersectionParts)
+			//inputParts.push_back(p);
+		//intersectionParts.clear();
+		//W++m;*/
 	}
 	if (inputParts.size() == 1)
 		addPrismFromWeilerAtherthonAlgo(inputParts[0]);
+	WATime = t.elapsed();
 }
 
 
@@ -312,4 +328,9 @@ void UserInterface::printInterface() const
     cout << "Max Vertices Number in base: " << maxVerticesNumber << endl;
     cout << "Input Prisms List" << endl;
     printInputPrismsList();
+}
+
+double UserInterface::doubleRound(double d)
+{
+	return round(d * 1000) / 1000;
 }

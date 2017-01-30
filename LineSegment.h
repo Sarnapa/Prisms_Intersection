@@ -22,6 +22,7 @@ private:
 	// this function is for 3 colinear points
 	static bool isOnSegment(const Vertex&, const Vertex&, const Vertex&);
 
+	static double doubleRound(double);
 public:
 	LineSegment();
 	LineSegment(const Vertex&, const Vertex&);
@@ -57,6 +58,7 @@ public:
 	pair<bool, Vertex> getIntersectionPoint(const LineSegment&) const;
 
 	string toString() const;
+
 };
 
 #endif

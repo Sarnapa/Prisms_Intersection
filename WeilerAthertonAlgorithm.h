@@ -38,7 +38,7 @@ private:
 	void sortPoints(int, multimap<int, Vertex>);
 	bool checkIfTheSame(); // polygon
 	bool checkIfInside();
-	int getStartPoint();
+	pair<int, int> getStartPoint();
 	int getNext(int, Vertex);
 	int getFromOtherPolygon(int, Vertex);
 	int countIntersectionPointsNumber();

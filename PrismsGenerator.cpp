@@ -8,13 +8,13 @@
 
 int PrismsGenerator::id = 0;
 
-PrismsGenerator::PrismsGenerator(int _prismsNumber, int _maxVerticesNumber, bool _onlyConvex) : prismsNumber(_prismsNumber), maxVerticesNumber(_maxVerticesNumber), onlyConvex(_onlyConvex)
+PrismsGenerator::PrismsGenerator(int _prismsNumber, int _maxVerticesNumber, bool _onlyConvex) : prismsNumber(_prismsNumber), maxVerticesNumber(_maxVerticesNumber > 50 ? 50 : _maxVerticesNumber), onlyConvex(_onlyConvex)
 {
 	srand(time(NULL));
 	if (maxVerticesNumber < 3)
 		maxVerticesNumber = 3;
-	minRadius = fRand(2.0, 20.0);
-	maxRadius = fRand(minRadius, 40.0);
+	minRadius = doubleRound(fRand(10.0, 20.0));
+	maxRadius = doubleRound(fRand(minRadius, 40.0));
 	//areaRange = prismsNumber < 100 ? prismsNumber : 100;
 }
 
@@ -42,26 +42,24 @@ Prism PrismsGenerator::generateConvexBase() const
 	else
 		verticesNumber = 3;
 
-	double radius = fRand(minRadius, maxRadius);
-	double circleCenterX = fRand((-areaRange) / 2, areaRange / 2);
-	double circleCenterY = fRand((-areaRange) / 2, areaRange / 2);
+	double radius = doubleRound(fRand(minRadius, maxRadius));
+	double circleCenterX = doubleRound(fRand((-areaRange) / 2, areaRange / 2));
+	double circleCenterY = doubleRound(fRand((-areaRange) / 2, areaRange / 2));
 
 	double step = 2.0 * M_PI / verticesNumber;
 	double maxStep = step;
 	double angle = 0.0f;
 	for (int i = 0; i < verticesNumber; ++i)
 	{
-		double x = circleCenterX + radius * cos(angle);
-		double y = circleCenterY + radius * sin(angle);
-		//cout << x << " " << y << " " << radius << " " << angle << " " << maxStep << endl;
+		double x = doubleRound(circleCenterX + radius * cos(angle));
+		double y = doubleRound(circleCenterY + radius * sin(angle));
 		if (i == verticesNumber - 2) // to avoid that start and last point will be the same
-			angle += fRand(0.0f, 2.0 * M_PI - angle - 0.1);
+			angle += doubleRound(fRand(0.1, 2.0 * M_PI - angle - 0.1));
 		else
-			angle += fRand(0.0, maxStep);
+			angle += doubleRound(fRand(0.1, maxStep));
 		maxStep = (i + 2) * step - angle;
-		verticesVector.push_back(Vertex(x, y));
+		verticesVector.push_back(Vertex(x,y));
 	}
-	//cout << endl;
 	return Prism(id, verticesVector, heightRange);
 }
 
@@ -72,42 +70,40 @@ Prism PrismsGenerator::generateBase() const
 	pair<double, double> heightRange = generateHeightRange();
 	int verticesNumber = generateVerticesNumber();
 
-	double radius = fRand(minRadius, maxRadius);
-	double circleCenterX = fRand((-areaRange) / 2, areaRange / 2);
-	double circleCenterY = fRand((-areaRange) / 2, areaRange / 2);
+	double radius = doubleRound(fRand(minRadius, maxRadius));
+	double circleCenterX = doubleRound(fRand((-areaRange) / 2, areaRange / 2));
+	double circleCenterY = doubleRound(fRand((-areaRange) / 2, areaRange / 2));
 
-	double smallRadius = fRand(minRadius, radius);
-	double bigRadius = fRand(radius, maxRadius);
+	double smallRadius = doubleRound(fRand(minRadius, radius));
+	double bigRadius = doubleRound(fRand(radius, maxRadius));
 
 	double step = 2.0 * M_PI / verticesNumber;
 	double maxStep = step;
 	double angle = 0.0;
 	for (int i = 0; i < verticesNumber; ++i)
 	{
-		double r = fRand(smallRadius, bigRadius);
-		double x = circleCenterX + r * cos(angle);
-		double y = circleCenterY + r * sin(angle);
-		//cout << x << " " << y << " " << r << " " << angle << " " << maxStep << " " << (i + 2) * maxStep << endl;
+		double r = doubleRound(fRand(smallRadius, bigRadius));
+		double x = doubleRound(circleCenterX + r * cos(angle));
+		double y = doubleRound(circleCenterY + r * sin(angle));
 		if (i == verticesNumber - 2)
 		{
 			if (angle >= M_PI)
-				angle += fRand(0.0f, 2.0 * M_PI - angle - 0.1);
+				angle += doubleRound(fRand(0.1, 2.0 * M_PI - angle - 0.1));
 			else
-				angle += fRand(M_PI - angle, M_PI); // to avoid sides intersection
+				angle += doubleRound(fRand(M_PI - angle, M_PI)); // to avoid sides intersection
 		}
 		else
- 			angle += fRand(0.0, maxStep);
+ 			angle += doubleRound(fRand(0.1, maxStep));
 		maxStep = (i + 2) * step - angle;
 		verticesVector.push_back(Vertex(x, y));
 	}
-	//cout << endl;
 	return Prism(id, verticesVector, heightRange);
 }
 
 pair<double, double> PrismsGenerator::generateHeightRange() const
 {
-	double minZ = fRand(0.0, 20.0);
-	double maxZ = fRand(minZ + 0.01, 40);
+	double minZ = doubleRound(fRand(0.0, 20.0));
+	double maxZ = doubleRound(fRand(minZ + 0.01, 40));
 	return make_pair(minZ, maxZ);
 }
 
@@ -121,6 +117,11 @@ double PrismsGenerator::fRand(double fMin, double fMax)
 {
 	double f = (double)rand() / RAND_MAX;
 	return fMin + f * (fMax - fMin);
+}
+
+double PrismsGenerator::doubleRound(double d)
+{
+	return round(d * 1000) / 1000;
 }
 
 void PrismsGenerator::incId()

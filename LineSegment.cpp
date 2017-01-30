@@ -141,14 +141,18 @@ pair<bool, Vertex> LineSegment::getIntersectionPoint(const LineSegment& line) co
 	}
 
 	if (v1 == line.v1 || v1 == line.v2)
+	{
 		return pair<bool, Vertex>(true, v1);
+	}
 	if (v2 == line.v1 || v2 == line.v2)
+	{
 		return pair<bool, Vertex>(true, v2);
+	}
 
-	double intersectionX = ((x3 - x4) * (x1 * y2 - y1 * x2) - (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
-	double intersectionY = ((y3 - y4) * (x1 * y2 - y1 * x2) - (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
+	double intersectionX = doubleRound(((x3 - x4) * (x1 * y2 - y1 * x2) - (x1 - x2) * (x3 * y4 - y3 * x4)) / d);
+	double intersectionY = doubleRound(((y3 - y4) * (x1 * y2 - y1 * x2) - (y1 - y2) * (x3 * y4 - y3 * x4)) / d);
 
-	if (intersectionX + EPSILON < min(x1, x2) || intersectionX > max(x1, x2) + EPSILON) 
+	if (intersectionX + EPSILON < min(x1, x2) || intersectionX > max(x1, x2) + EPSILON)
 	{
 		return pair<bool, Vertex>(false, Vertex());
 	}
@@ -179,5 +183,11 @@ string LineSegment::toString() const
 
 bool LineSegment::approximatelyEqual(double a, double b) 
 {
-	return fabs(a - b) <= fmax(1.0f, max(fabs(a), fabs(b))) * EPSILON;
+	//return fabs(a - b) <= fmax(1.0, max(fabs(a), fabs(b))) * EPSILON;
+	return fabs(a - b) <= EPSILON;
+}
+
+double LineSegment::doubleRound(double d)
+{
+	return round(d * 1000) / 1000;
 }

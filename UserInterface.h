@@ -38,8 +38,10 @@ class UserInterface
         int prismsNumber = 0;
         int maxVerticesNumber = 0; // in base
 		bool onlyConvexForGenerator = false;
+		long WATime; // execution time of wa algorithm
 
 		static Prism generatePrism(string); // from line from file
+		static double doubleRound(double);
     public:
         static void printInfo();
         bool parseCommand(int, char **);
@@ -58,6 +60,7 @@ class UserInterface
 
         void printInputPrismsList() const;
 		void printWAPrismsList() const;
+		void printWATime() const;
         void printInterface() const;
 };
 

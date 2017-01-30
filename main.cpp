@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
 		if (!interface.saveToOutFile(0))
 			cout << "Cannot save WA algorithm result to file" << endl;
 		interface.printWAPrismsList();
+		interface.printWATime();
 		interface.drawWAPrisms();
     }
 

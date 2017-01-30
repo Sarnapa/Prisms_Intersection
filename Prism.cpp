@@ -9,19 +9,29 @@
 Prism::Prism()
 {}
 
+Prism::Prism(Polygon base)
+{
+	this->base = base;
+}
+
 Prism::Prism(int id, Polygon base)
 {
 	this->id = id;
 	this->base = base;
 }
 
-Prism::Prism(int _id, Polygon _base, pair<double,double> heightRange): id(_id), base(_base)
+Prism::Prism(int id, Polygon base, pair<double,double> heightRange)
 {
+	this->id = id;
+	this->base = base;
 	heightRanges.insert(make_pair(id, heightRange));
 }
 
-Prism::Prism(const Prism& otherPrism): id(otherPrism.id), base(otherPrism.base), heightRanges(otherPrism.heightRanges)
+Prism::Prism(const Prism& otherPrism)
 {
+	this->id = otherPrism.id;
+	this->base = otherPrism.base;
+	this->heightRanges = otherPrism.heightRanges;
 }
 
 Prism::Prism(int id, Polygon polygon, map<int, pair<double, double>> heightRanges)
@@ -42,8 +52,10 @@ Prism& Prism::operator=(const Prism& otherPrism)
 
 bool Prism::operator==(const Prism& otherPrism) const
 {
-    if(base == otherPrism.base && heightRanges == otherPrism.heightRanges && id == otherPrism.id)
-        return true;
+	if (base == otherPrism.base && heightRanges == otherPrism.heightRanges && id == otherPrism.id)
+	{	
+		return true;
+	}
     else
         return false;
 }
@@ -95,6 +107,7 @@ void Prism::printPrism() const
 	}
 	cout << "Base: ";
     base.printPolygon();
+	cout << endl;
 }
 
 string Prism::toString() const
